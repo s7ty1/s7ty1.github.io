@@ -491,11 +491,12 @@ let unsubLogs = null;
 async function collectInfo() {
   let ip = "غير معروف", country = "", city = "", isp = "", lat = "", lon = "", region = "";
   try {
-    const r = await fetch("http://ip-api.com/json/?fields=status,country,regionName,city,isp,lat,lon,query", { signal: AbortSignal.timeout(5000) });
+    const r = await fetch("https://ipwho.is/", { signal: AbortSignal.timeout(5000) });
     const d = await r.json();
-    if (d.status === "success") {
-      ip = d.query; country = d.country; city = d.city;
-      isp = d.isp; lat = d.lat; lon = d.lon; region = d.regionName;
+    if (d.success) {
+      ip = d.ip; country = d.country; city = d.city;
+      isp = d.connection?.isp || d.connection?.org || "";
+      lat = d.latitude; lon = d.longitude; region = d.region;
     }
   } catch {
     try {
