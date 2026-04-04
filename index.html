@@ -534,36 +534,37 @@ const auth = getAuth(app);
 
 // ─── Lessons Data ───
 const FIRST_SUNDAY = new Date("2026-03-29");
-const ALL_LESSONS = [
-  { id:"3-1", chapter:"الفصل الثالث", chapterNum:3, name:"مدخل اللياقة البدنية" },
-  { id:"3-2", chapter:"الفصل الثالث", chapterNum:3, name:"قياس اللياقة البدنية" },
-  { id:"3-3", chapter:"الفصل الثالث", chapterNum:3, name:"برنامج اللياقة البدنية الشخصي" },
-  { id:"3-4", chapter:"الفصل الثالث", chapterNum:3, name:"برنامج التدريب الرياضي للتحكم بالوزن" },
-  { id:"4-1", chapter:"الفصل الرابع", chapterNum:4, name:"النظام الغذائي الصحي" },
-  { id:"4-2", chapter:"الفصل الرابع", chapterNum:4, name:"السعرات الحرارية" },
-  { id:"4-3", chapter:"الفصل الرابع", chapterNum:4, name:"إدارة الوزن" },
-  { id:"5-1", chapter:"الفصل الخامس", chapterNum:5, name:"مدخل السلامة الشخصية" },
-  { id:"5-2", chapter:"الفصل الخامس", chapterNum:5, name:"السلامة المرورية" },
-  { id:"5-3", chapter:"الفصل الخامس", chapterNum:5, name:"الحالات الطبية الطارئة" },
-  { id:"5-4", chapter:"الفصل الخامس", chapterNum:5, name:"الإسعافات الأولية" },
-  { id:"5-5", chapter:"الفصل الخامس", chapterNum:5, name:"خدمات الرعاية الصحية" },
-  { id:"5-6", chapter:"الفصل الخامس", chapterNum:5, name:"الوقاية من الأمراض" },
-  { id:"6-1", chapter:"الفصل السادس", chapterNum:6, name:"مدخل الصحة النفسية" },
-  { id:"6-2", chapter:"الفصل السادس", chapterNum:6, name:"اضطرابات الصحة النفسية" },
-  { id:"6-3", chapter:"الفصل السادس", chapterNum:6, name:"الضغوط النفسية" },
-  { id:"7-1", chapter:"الفصل السابع", chapterNum:7, name:"مدخل المؤثرات العقلية" },
-  { id:"7-2", chapter:"الفصل السابع", chapterNum:7, name:"التعاطي والإدمان" },
-  { id:"7-3", chapter:"الفصل السابع", chapterNum:7, name:"منتجات التبغ وأضرارها" },
-  { id:"7-4", chapter:"الفصل السابع", chapterNum:7, name:"أضرار تعاطي المخدرات ومهارات الرفض" },
-];
-ALL_LESSONS.forEach((l, i) => {
-  l.weekNum = Math.floor(i / 3) + 1;
-  const d = new Date(FIRST_SUNDAY);
-  d.setDate(d.getDate() + (l.weekNum - 1) * 7);
-  l.dateISO = d.toISOString().split("T")[0];
-  l.date = d.toLocaleDateString("ar-SA-u-nu-latn", { weekday:"long", year:"numeric", month:"long", day:"numeric" });
-});
 
+const HOLIDAYS = [
+  "2026-05-15","2026-05-16","2026-05-17","2026-05-18","2026-05-19",
+  "2026-05-20","2026-05-21","2026-05-22","2026-05-23","2026-05-24",
+  "2026-05-25","2026-05-26","2026-05-27","2026-05-28","2026-05-29",
+  "2026-05-30","2026-05-31","2026-06-01"
+];
+
+function nextLessonDate(startDate, lessonIndex) {
+  let d = new Date(startDate);
+  let count = 0;
+  while (count <= lessonIndex) {
+    const iso = d.toISOString().split("T")[0];
+    // الجمعة=5، السبت=6، والعطلات
+    if (!HOLIDAYS.includes(iso) && d.getDay() !== 5 && d.getDay() !== 6) {
+      count++;
+    }
+    if (count <= lessonIndex) {
+      d.setDate(d.getDate() + 1);
+    }
+  }
+  return d;
+}
+
+ALL_LESSONS.forEach((l, i) => {
+  const d = nextLessonDate(FIRST_SUNDAY, i);
+  l.dateISO = d.toISOString().split("T")[0];
+  l.date = d.toLocaleDateString("ar-SA-u-nu-latn", { 
+    weekday:"long", year:"numeric", month:"long", day:"numeric" 
+  });
+});
 // ─── State ───
 let regsCache = [];
 let logsCache = [];
