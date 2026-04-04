@@ -50,24 +50,15 @@
     z-index: 0;
   }
 
-  /* ── Loading overlay ── */
   #loading-overlay {
-    position: fixed;
-    inset: 0;
-    background: var(--bg);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    gap: 16px;
+    position: fixed; inset: 0; background: var(--bg);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    z-index: 9999; gap: 16px;
   }
   .spinner {
     width: 40px; height: 40px;
-    border: 3px solid var(--border);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
+    border: 3px solid var(--border); border-top-color: var(--accent);
+    border-radius: 50%; animation: spin 0.8s linear infinite;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
   #loading-overlay p { color: var(--text2); font-size: 14px; }
@@ -77,112 +68,81 @@
 
   .header { text-align: center; padding: 48px 20px 32px; }
   .header-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(59,130,246,0.1);
-    border: 1px solid rgba(59,130,246,0.25);
-    color: var(--accent2);
-    padding: 6px 16px;
-    border-radius: 100px;
-    font-size: 13px;
-    font-weight: 500;
-    margin-bottom: 20px;
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.25);
+    color: var(--accent2); padding: 6px 16px; border-radius: 100px;
+    font-size: 13px; font-weight: 500; margin-bottom: 20px;
   }
   .header h1 {
-    font-size: clamp(28px, 5vw, 48px);
-    font-weight: 900;
+    font-size: clamp(28px, 5vw, 48px); font-weight: 900;
     background: linear-gradient(135deg, #f1f5f9 0%, #94a3b8 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 1.2;
-    margin-bottom: 10px;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; line-height: 1.2; margin-bottom: 10px;
   }
   .header p { color: var(--text2); font-size: 16px; }
 
   .container { max-width: 900px; margin: 0 auto; padding: 0 20px 60px; }
 
   .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 32px;
-    margin-bottom: 24px;
-    position: relative;
-    overflow: hidden;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; padding: 32px; margin-bottom: 24px;
+    position: relative; overflow: hidden;
   }
   .card::before {
-    content: '';
-    position: absolute;
-    top: 0; right: 0; left: 0;
-    height: 1px;
+    content: ''; position: absolute; top: 0; right: 0; left: 0; height: 1px;
     background: linear-gradient(90deg, transparent, rgba(59,130,246,0.4), transparent);
   }
 
   .form-group { margin-bottom: 20px; }
-  .form-label {
-    display: block;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text2);
-    margin-bottom: 8px;
-  }
+  .form-label { display: block; font-size: 14px; font-weight: 600; color: var(--text2); margin-bottom: 8px; }
   .form-label span { color: var(--red); }
   .form-input {
-    width: 100%;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px 16px;
-    font-size: 15px;
-    font-family: 'Tajawal', sans-serif;
-    color: var(--text);
-    transition: all 0.2s;
-    outline: none;
-    direction: rtl;
+    width: 100%; background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 12px 16px; font-size: 15px;
+    font-family: 'Tajawal', sans-serif; color: var(--text);
+    transition: all 0.2s; outline: none; direction: rtl;
   }
   .form-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
   .form-input::placeholder { color: var(--text3); }
 
+  /* ── Date section headers ── */
+  .date-section { margin-top: 20px; margin-bottom: 8px; }
+  .date-section-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2);
+    color: var(--accent2); padding: 5px 14px; border-radius: 8px;
+    font-size: 13px; font-weight: 700;
+  }
+  .date-section-label.full {
+    background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.2); color: #34d399;
+  }
+
   .lessons-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-    gap: 12px;
-    margin-top: 12px;
+    gap: 10px;
+    margin-top: 6px;
   }
   .lesson-card {
-    border: 2px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 16px;
-    cursor: pointer;
-    transition: all 0.2s;
-    background: var(--surface2);
-    position: relative;
+    border: 2px solid var(--border); border-radius: 12px; padding: 14px 16px;
+    cursor: pointer; transition: all 0.2s; background: var(--surface2); position: relative;
   }
   .lesson-card:hover:not(.taken) {
-    border-color: var(--accent);
-    background: rgba(59,130,246,0.05);
-    transform: translateY(-1px);
+    border-color: var(--accent); background: rgba(59,130,246,0.05); transform: translateY(-1px);
   }
   .lesson-card.selected {
-    border-color: var(--accent);
-    background: rgba(59,130,246,0.1);
+    border-color: var(--accent); background: rgba(59,130,246,0.1);
     box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
   }
   .lesson-card.taken { opacity: 0.4; cursor: not-allowed; }
   .lesson-chapter { font-size: 11px; font-weight: 700; margin-bottom: 4px; letter-spacing: 0.5px; }
   .lesson-name { font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.4; }
-  .lesson-week { font-size: 12px; color: var(--text3); margin-top: 6px; }
+  .lesson-date { font-size: 12px; color: var(--text3); margin-top: 6px; }
   .taken-badge {
     position: absolute; top: 8px; left: 8px;
-    background: rgba(239,68,68,0.15);
-    color: var(--red);
-    border: 1px solid rgba(239,68,68,0.3);
-    border-radius: 6px;
-    padding: 2px 8px;
-    font-size: 11px;
-    font-weight: 600;
+    background: rgba(239,68,68,0.15); color: var(--red);
+    border: 1px solid rgba(239,68,68,0.3); border-radius: 6px;
+    padding: 2px 8px; font-size: 11px; font-weight: 600;
   }
   .ch-3 .lesson-chapter { color: #a78bfa; }
   .ch-4 .lesson-chapter { color: #34d399; }
@@ -191,56 +151,33 @@
   .ch-7 .lesson-chapter { color: #fbbf24; }
 
   .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 13px 28px;
-    border-radius: 10px;
-    font-size: 15px;
-    font-family: 'Tajawal', sans-serif;
-    font-weight: 700;
-    cursor: pointer;
-    border: none;
-    transition: all 0.2s;
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: 8px; padding: 13px 28px; border-radius: 10px; font-size: 15px;
+    font-family: 'Tajawal', sans-serif; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s;
   }
   .btn-primary {
     background: linear-gradient(135deg, var(--accent), #2563eb);
-    color: white;
-    width: 100%;
-    font-size: 16px;
-    padding: 15px;
+    color: white; width: 100%; font-size: 16px; padding: 15px;
     box-shadow: 0 4px 20px rgba(59,130,246,0.3);
   }
   .btn-primary:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(59,130,246,0.4); }
   .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
   .btn-secondary {
-    background: var(--surface2);
-    color: var(--text2);
-    border: 1px solid var(--border);
+    background: var(--surface2); color: var(--text2); border: 1px solid var(--border);
   }
   .btn-secondary:hover { border-color: var(--accent); color: var(--text); }
 
   .success-box { text-align: center; padding: 48px 32px; }
   .success-icon {
-    width: 80px; height: 80px;
-    background: rgba(16,185,129,0.1);
-    border: 2px solid rgba(16,185,129,0.3);
-    border-radius: 50%;
+    width: 80px; height: 80px; background: rgba(16,185,129,0.1);
+    border: 2px solid rgba(16,185,129,0.3); border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 24px;
-    font-size: 36px;
+    margin: 0 auto 24px; font-size: 36px;
   }
   .success-box h2 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
-
   .schedule-info {
-    background: rgba(59,130,246,0.08);
-    border: 1px solid rgba(59,130,246,0.2);
-    border-radius: 12px;
-    padding: 20px 24px;
-    margin: 24px auto;
-    max-width: 400px;
-    text-align: right;
+    background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2);
+    border-radius: 12px; padding: 20px 24px; margin: 24px auto; max-width: 420px; text-align: right;
   }
   .schedule-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 15px; }
   .schedule-row:last-child { margin-bottom: 0; }
@@ -250,30 +187,20 @@
   .admin-login { max-width: 420px; margin: 80px auto; padding: 0 20px; }
 
   .dash-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 24px 32px;
-    border-bottom: 1px solid var(--border);
-    position: relative; z-index: 1;
-    flex-wrap: wrap;
-    gap: 12px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 24px 32px; border-bottom: 1px solid var(--border);
+    position: relative; z-index: 1; flex-wrap: wrap; gap: 12px;
   }
   .dash-title { font-size: 20px; font-weight: 800; }
   .dash-body { padding: 32px; max-width: 1100px; margin: 0 auto; }
 
   .stats-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 16px;
-    margin-bottom: 32px;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px; margin-bottom: 32px;
   }
   .stat-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px;
-    position: relative; overflow: hidden;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 20px; position: relative; overflow: hidden;
   }
   .stat-card::before { content: ''; position: absolute; top: 0; right: 0; left: 0; height: 2px; }
   .stat-card.blue::before { background: var(--accent); }
@@ -286,26 +213,13 @@
   .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
   table { width: 100%; border-collapse: collapse; }
   th {
-    background: var(--surface2);
-    padding: 14px 16px;
-    text-align: right;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text2);
-    white-space: nowrap;
+    background: var(--surface2); padding: 14px 16px; text-align: right;
+    font-size: 13px; font-weight: 700; color: var(--text2); white-space: nowrap;
   }
   td { padding: 13px 16px; font-size: 14px; border-top: 1px solid var(--border); vertical-align: middle; }
   tr:hover td { background: rgba(59,130,246,0.03); }
   .badge { display: inline-block; padding: 3px 10px; border-radius: 100px; font-size: 12px; font-weight: 600; }
-  .badge-week { background: rgba(59,130,246,0.1); color: var(--accent2); border: 1px solid rgba(59,130,246,0.2); }
-
-  .logs-section { margin-top: 32px; }
-  .section-title {
-    font-size: 16px; font-weight: 700; margin-bottom: 16px;
-    display: flex; align-items: center; gap: 8px; color: var(--text);
-  }
-  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent2); animation: pulse 2s infinite; }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .badge-date { background: rgba(59,130,246,0.1); color: var(--accent2); border: 1px solid rgba(59,130,246,0.2); }
 
   .tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
   .tab {
@@ -324,53 +238,38 @@
   .empty-icon { font-size: 40px; margin-bottom: 12px; }
   .divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
   .search-row { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
-
+  .logs-section { margin-top: 32px; }
+  .section-title {
+    font-size: 16px; font-weight: 700; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px; color: var(--text);
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent2); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
   @keyframes fadeIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
   .page.active { animation: fadeIn 0.3s ease; }
-
+  .live-dot { display: inline-block; width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; margin-left: 6px; }
+  .btn-danger {
+    background: rgba(239,68,68,0.1); color: var(--red); border: 1px solid rgba(239,68,68,0.3);
+    font-family: 'Tajawal', sans-serif; border-radius: 8px; padding: 6px 14px;
+    font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s;
+  }
+  .btn-danger:hover { background: rgba(239,68,68,0.2); }
   @media (max-width: 600px) {
     .card { padding: 20px; }
     .lessons-grid { grid-template-columns: 1fr; }
     .dash-header { padding: 16px 20px; }
     .dash-body { padding: 16px; }
   }
-
-  /* Live indicator */
-  .live-dot {
-    display: inline-block;
-    width: 8px; height: 8px;
-    background: var(--green);
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-    margin-left: 6px;
-  }
-
-  .btn-danger {
-    background: rgba(239,68,68,0.1);
-    color: var(--red);
-    border: 1px solid rgba(239,68,68,0.3);
-    font-family: 'Tajawal', sans-serif;
-    border-radius: 8px;
-    padding: 6px 14px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .btn-danger:hover { background: rgba(239,68,68,0.2); }
 </style>
 </head>
 <body>
 
-<!-- Loading -->
 <div id="loading-overlay">
   <div class="spinner"></div>
   <p>جاري التحميل...</p>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!--  PAGE 1: STUDENT REGISTRATION              -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- PAGE 1: STUDENT -->
 <div class="page" id="page-student">
   <div class="header">
     <div class="header-badge">📅 الحصة الأولى · الأحد · 7:00 - 7:45</div>
@@ -388,8 +287,8 @@
       </div>
       <div class="form-group">
         <label class="form-label">اختر الدرس <span>*</span></label>
-        <div class="lessons-grid" id="lessons-grid">
-          <div style="color:var(--text3); padding:20px; grid-column:1/-1; text-align:center;">جاري التحميل...</div>
+        <div id="lessons-container">
+          <div style="color:var(--text3); padding:20px; text-align:center;">جاري التحميل...</div>
         </div>
       </div>
       <hr class="divider">
@@ -405,9 +304,7 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!--  PAGE 2: SUCCESS                           -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- PAGE 2: SUCCESS -->
 <div class="page" id="page-success">
   <div class="container" style="max-width:600px; padding-top:40px;">
     <div class="card">
@@ -416,8 +313,7 @@
         <h2>تم التسجيل بنجاح!</h2>
         <p id="success-name" style="font-size:20px;font-weight:700;color:var(--text);margin:12px 0;"></p>
         <div class="schedule-info">
-          <div class="schedule-row"><span class="schedule-row">📖</span><div><span>الدرس: </span><strong id="s-lesson"></strong></div></div>
-          <div class="schedule-row"><span>📅</span><div><span>الأسبوع: </span><strong id="s-week"></strong></div></div>
+          <div class="schedule-row"><span>📖</span><div><span>الدرس: </span><strong id="s-lesson"></strong></div></div>
           <div class="schedule-row"><span>🗓️</span><div><span>التاريخ: </span><strong id="s-date"></strong></div></div>
           <div class="schedule-row"><span>⏰</span><div><span>الوقت: </span><strong>7:00 - 7:45 صباحاً</strong></div></div>
           <div class="schedule-row"><span>⏱️</span><div><span>مدة العرض: </span><strong>15 دقيقة</strong></div></div>
@@ -428,9 +324,7 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!--  PAGE 3: ADMIN LOGIN                       -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- PAGE 3: ADMIN LOGIN -->
 <div class="page" id="page-admin-login">
   <div class="admin-login">
     <div class="header" style="padding:40px 0 32px;">
@@ -454,9 +348,7 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!--  PAGE 4: DASHBOARD                         -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- PAGE 4: DASHBOARD -->
 <div class="page" id="page-dashboard">
   <div class="dash-header">
     <div class="dash-title">📊 لوحة تحكم المنسق <span class="live-dot"></span></div>
@@ -467,7 +359,7 @@
   </div>
   <div class="dash-body">
     <div class="stats-row" id="stats-row"></div>
-    <div class="tabs" id="week-tabs"></div>
+    <div class="tabs" id="date-tabs"></div>
     <div class="search-row">
       <input type="text" class="form-input" id="search-input" placeholder="🔍 ابحث باسم الطالب..." oninput="renderDashboard()" style="max-width:300px;">
     </div>
@@ -475,32 +367,25 @@
     <div class="table-wrap">
       <table>
         <thead>
-          <tr>
-            <th>#</th><th>اسم الطالب</th><th>الفصل</th><th>الدرس</th>
-            <th>الأسبوع</th><th>التاريخ</th><th>وقت التسجيل</th><th>إجراء</th>
-          </tr>
+          <tr><th>#</th><th>اسم الطالب</th><th>الفصل</th><th>الدرس</th><th>التاريخ</th><th>وقت التسجيل</th><th>إجراء</th></tr>
         </thead>
         <tbody id="reg-tbody"></tbody>
       </table>
     </div>
-
     <div class="logs-section">
       <div class="section-title">⚠️ دروس لم تُسجَّل بعد</div>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>#</th><th>الفصل</th><th>الدرس</th><th>الأسبوع المقترح</th></tr></thead>
+          <thead><tr><th>#</th><th>الفصل</th><th>الدرس</th><th>التاريخ المقترح</th></tr></thead>
           <tbody id="unreg-tbody"></tbody>
         </table>
       </div>
     </div>
-
     <div class="logs-section">
       <div class="section-title"><span class="dot"></span> سجل الزيارات (Logs)</div>
       <div class="table-wrap">
         <table>
-          <thead>
-            <tr><th>#</th><th>الحدث</th><th>التفاصيل</th><th>IP</th><th>التاريخ والوقت</th></tr>
-          </thead>
+          <thead><tr><th>#</th><th>الحدث</th><th>التفاصيل</th><th>IP</th><th>التاريخ والوقت</th></tr></thead>
           <tbody id="logs-tbody"></tbody>
         </table>
       </div>
@@ -508,17 +393,15 @@
   </div>
 </div>
 
-<!-- Firebase SDKs -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword } 
+import { getAuth, signInWithEmailAndPassword }
 from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import {
   getFirestore, collection, doc, addDoc, getDocs, deleteDoc,
-  onSnapshot, query, orderBy, serverTimestamp, where, getDoc, setDoc
+  onSnapshot, query, orderBy, serverTimestamp, where
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// ─── Firebase Config ───
 const firebaseConfig = {
   apiKey: "AIzaSyDQjrWEo9YQtZVoQI4UORJGfK9AHjDuJD8",
   authDomain: "s7ty1-8331c.firebaseapp.com",
@@ -527,14 +410,36 @@ const firebaseConfig = {
   messagingSenderId: "232967136680",
   appId: "1:232967136680:web:141f40a48c66615fc2a99d"
 };
-
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-// ─── Lessons Data ───
-const FIRST_SUNDAY = new Date("2026-03-29");
-const ALL_LESSONS = [
+// ─── Generate valid Sundays skipping holidays ───
+// Holidays: Fri+Sat always off. Eid Al-Adha: 15/05 - 01/06 (inclusive)
+function generateSessions() {
+  const sessions = [];
+  let current = new Date("2026-03-29"); // First Sunday
+  const eidStart = new Date("2026-05-15");
+  const eidEnd   = new Date("2026-06-01"); // last day of holiday
+
+  while (sessions.length < 7) { // We need 7 sessions for 20 lessons (3+3+3+3+3+3+2)
+    // Skip if within Eid holiday range
+    if (current >= eidStart && current <= eidEnd) {
+      current = new Date(current);
+      current.setDate(current.getDate() + 7);
+      continue;
+    }
+    sessions.push(new Date(current));
+    current = new Date(current);
+    current.setDate(current.getDate() + 7);
+  }
+  return sessions;
+}
+
+const SESSIONS = generateSessions();
+
+// ─── Assign lessons to sessions (3 per session) ───
+const ALL_LESSONS_RAW = [
   { id:"3-1", chapter:"الفصل الثالث", chapterNum:3, name:"مدخل اللياقة البدنية" },
   { id:"3-2", chapter:"الفصل الثالث", chapterNum:3, name:"قياس اللياقة البدنية" },
   { id:"3-3", chapter:"الفصل الثالث", chapterNum:3, name:"برنامج اللياقة البدنية الشخصي" },
@@ -556,22 +461,28 @@ const ALL_LESSONS = [
   { id:"7-3", chapter:"الفصل السابع", chapterNum:7, name:"منتجات التبغ وأضرارها" },
   { id:"7-4", chapter:"الفصل السابع", chapterNum:7, name:"أضرار تعاطي المخدرات ومهارات الرفض" },
 ];
-ALL_LESSONS.forEach((l, i) => {
-  l.weekNum = Math.floor(i / 3) + 1;
-  const d = new Date(FIRST_SUNDAY);
-  d.setDate(d.getDate() + (l.weekNum - 1) * 7);
-  l.dateISO = d.toISOString().split("T")[0];
-  l.date = d.toLocaleDateString("ar-SA-u-nu-latn", { weekday:"long", year:"numeric", month:"long", day:"numeric" });
+
+const ALL_LESSONS = ALL_LESSONS_RAW.map((l, i) => {
+  const sessionIdx = Math.floor(i / 3);
+  const sessionDate = SESSIONS[sessionIdx] || SESSIONS[SESSIONS.length - 1];
+  const dateISO = sessionDate.toISOString().split("T")[0];
+  const dateAr = sessionDate.toLocaleDateString("ar-SA-u-nu-latn", {
+    weekday: "long", year: "numeric", month: "long", day: "numeric"
+  });
+  // Short display: "الأحد 29/03/2026"
+  const dd = String(sessionDate.getDate()).padStart(2,"0");
+  const mm = String(sessionDate.getMonth()+1).padStart(2,"0");
+  const yyyy = sessionDate.getFullYear();
+  const dayNames = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
+  const dateShort = dayNames[sessionDate.getDay()] + " " + dd + "/" + mm + "/" + yyyy;
+  return { ...l, sessionIdx, dateISO, dateAr, dateShort };
 });
 
 // ─── State ───
 let regsCache = [];
 let logsCache = [];
 let selectedLesson = null;
-let activeWeekFilter = "all";
-let adminAttempts = 0;
-let adminLocked = false;
-let lockUntil = 0;
+let activeSessionFilter = "all";
 let unsubRegs = null;
 let unsubLogs = null;
 
@@ -583,7 +494,6 @@ async function getIP() {
   } catch { return "غير معروف"; }
 }
 
-// ─── Log to Firestore ───
 async function addLog(event, details) {
   const ip = await getIP();
   try {
@@ -596,7 +506,6 @@ async function addLog(event, details) {
   } catch(e) { console.error("Log error:", e); }
 }
 
-// ─── Init ───
 window.addEventListener("load", async () => {
   await addLog("فتح الموقع", "زيارة صفحة التسجيل");
   await loadRegs();
@@ -604,18 +513,12 @@ window.addEventListener("load", async () => {
   showPage("page-student");
 });
 
-window.addEventListener("beforeunload", () => {
-  navigator.sendBeacon && addLog("مغادرة الموقع", "أغلق المستخدم الصفحة");
-});
-
-// ─── Load registrations (one-time for student page) ───
 async function loadRegs() {
   const snap = await getDocs(collection(db, "registrations"));
   regsCache = snap.docs.map(d => ({ docId: d.id, ...d.data() }));
   renderLessons();
 }
 
-// ─── Real-time listener for dashboard ───
 function startRealtime() {
   if (unsubRegs) return;
   unsubRegs = onSnapshot(
@@ -640,7 +543,6 @@ function stopRealtime() {
   if (unsubLogs) { unsubLogs(); unsubLogs = null; }
 }
 
-// ─── Page Navigation ───
 window.showPage = function(id) {
   document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
   document.getElementById(id).classList.add("active");
@@ -654,36 +556,45 @@ window.showAdminLogin = function() {
   addLog("محاولة دخول للوحة التحكم", "فتح صفحة تسجيل دخول المنسق");
 }
 
-// ─── Render Lessons ───
+// ─── Render lessons grouped by date ───
 function renderLessons() {
   const takenIds = regsCache.map(r => r.lessonId);
-  const grid = document.getElementById("lessons-grid");
-  if (!grid) return;
+  const container = document.getElementById("lessons-container");
+  if (!container) return;
 
-  const byChapter = {};
+  // Group by session date
+  const bySession = {};
   ALL_LESSONS.forEach(l => {
-    if (!byChapter[l.chapter]) byChapter[l.chapter] = [];
-    byChapter[l.chapter].push(l);
+    if (!bySession[l.dateISO]) bySession[l.dateISO] = [];
+    bySession[l.dateISO].push(l);
   });
 
   let html = "";
-  Object.entries(byChapter).forEach(([ch, lessons]) => {
-    const chNum = lessons[0].chapterNum;
+  Object.entries(bySession).forEach(([dateISO, lessons]) => {
+    const allTaken = lessons.every(l => takenIds.includes(l.id));
+    html += `
+      <div class="date-section">
+        <div class="date-section-label ${allTaken ? "full" : ""}">
+          📅 ${lessons[0].dateShort} ${allTaken ? "· اكتملت" : ""}
+        </div>
+      </div>
+      <div class="lessons-grid">`;
     lessons.forEach(l => {
       const taken = takenIds.includes(l.id);
       const sel = selectedLesson === l.id;
       html += `
-        <div class="lesson-card ch-${chNum} ${taken?"taken":""} ${sel?"selected":""}"
+        <div class="lesson-card ch-${l.chapterNum} ${taken?"taken":""} ${sel?"selected":""}"
              id="lcard-${l.id}"
              onclick="${taken?"":"selectLesson('"+l.id+"')"}">
           ${taken ? '<span class="taken-badge">محجوز</span>' : ""}
           <div class="lesson-chapter">${l.chapter}</div>
           <div class="lesson-name">${l.name}</div>
-          <div class="lesson-week">📅 أسبوع ${l.weekNum} — ${l.dateISO}</div>
         </div>`;
     });
+    html += `</div>`;
   });
-  grid.innerHTML = html;
+
+  container.innerHTML = html;
 }
 
 window.selectLesson = function(id) {
@@ -696,25 +607,22 @@ window.selectLesson = function(id) {
 // ─── Register ───
 window.registerStudent = async function() {
   const nameRaw = document.getElementById("student-name").value.trim();
-  const alert = document.getElementById("student-alert");
+  const alertEl = document.getElementById("student-alert");
   const btn = document.getElementById("register-btn");
 
-  if (!nameRaw) return showAlert(alert, "❌ الرجاء إدخال اسمك الكامل");
-  if (nameRaw.length < 4) return showAlert(alert, "❌ الاسم قصير جداً — اكتب اسمك الأول واسم العائلة");
-  if (!selectedLesson) return showAlert(alert, "❌ الرجاء اختيار درس");
+  if (!nameRaw) return showAlert(alertEl, "❌ الرجاء إدخال اسمك الكامل");
+  if (nameRaw.length < 4) return showAlert(alertEl, "❌ الاسم قصير جداً — اكتب اسمك الأول واسم العائلة");
+  if (!selectedLesson) return showAlert(alertEl, "❌ الرجاء اختيار درس");
 
-  // Check duplicate name
   const normName = normalizeName(nameRaw);
-  if (regsCache.some(r => normalizeName(r.name) === normName)) {
-    return showAlert(alert, "⚠️ هذا الاسم مسجّل مسبقاً. كل طالب يسجل مرة واحدة فقط.");
-  }
+  if (regsCache.some(r => normalizeName(r.name) === normName))
+    return showAlert(alertEl, "⚠️ هذا الاسم مسجّل مسبقاً. كل طالب يسجل مرة واحدة فقط.");
 
-  // Check lesson taken (re-verify from Firestore)
   const snap = await getDocs(query(collection(db, "registrations"), where("lessonId","==",selectedLesson)));
   if (!snap.empty) {
     selectedLesson = null;
     await loadRegs();
-    return showAlert(alert, "⚠️ هذا الدرس اختاره طالب آخر الآن. اختر درساً مختلفاً.");
+    return showAlert(alertEl, "⚠️ هذا الدرس اختاره طالب آخر الآن. اختر درساً مختلفاً.");
   }
 
   btn.disabled = true;
@@ -728,9 +636,9 @@ window.registerStudent = async function() {
     lessonName: lesson.name,
     chapter: lesson.chapter,
     chapterNum: lesson.chapterNum,
-    weekNum: lesson.weekNum,
-    date: lesson.date,
     dateISO: lesson.dateISO,
+    dateShort: lesson.dateShort,
+    dateAr: lesson.dateAr,
     registeredAt: now.toLocaleString("ar-SA-u-nu-latn", { hour12:false }),
     registeredAtTS: Date.now(),
     timestamp: serverTimestamp(),
@@ -738,18 +646,16 @@ window.registerStudent = async function() {
 
   try {
     await addDoc(collection(db, "registrations"), regData);
-    await addLog("تسجيل ناجح", `${nameRaw} → ${lesson.name} (الأسبوع ${lesson.weekNum})`);
+    await addLog("تسجيل ناجح", `${nameRaw} → ${lesson.name} (${lesson.dateISO})`);
 
-    // Show success
     document.getElementById("success-name").textContent = nameRaw;
     document.getElementById("s-lesson").textContent = lesson.name + " — " + lesson.chapter;
-    document.getElementById("s-week").textContent = "الأحد، الأسبوع " + lesson.weekNum;
-    document.getElementById("s-date").textContent = lesson.dateISO;
+    document.getElementById("s-date").textContent = lesson.dateShort;
 
     selectedLesson = null;
     showPage("page-success");
   } catch(e) {
-    showAlert(alert, "❌ حدث خطأ أثناء التسجيل. حاول مجدداً.");
+    showAlert(alertEl, "❌ حدث خطأ أثناء التسجيل. حاول مجدداً.");
     console.error(e);
   }
 
@@ -762,17 +668,14 @@ function normalizeName(n) {
     .replace(/أ|إ|آ/g,"ا").replace(/ة/g,"ه").replace(/ى/g,"ي");
 }
 
-// ─── Admin Auth ───
+// ─── Admin ───
 window.adminLogin = async function() {
   const pass = document.getElementById("admin-pass").value;
-
   try {
     await signInWithEmailAndPassword(auth, "admin@s7ty1.com", pass);
-
     showPage("page-dashboard");
     startRealtime();
-
-  } catch (e) {
+  } catch(e) {
     const alertBox = document.getElementById("admin-alert");
     alertBox.innerText = "❌ كلمة المرور غير صحيحة";
     alertBox.classList.add("show");
@@ -786,7 +689,6 @@ window.adminLogout = function() {
   renderLessons();
 }
 
-// ─── Delete Registration ───
 window.deleteReg = async function(docId, name) {
   if (!confirm(`هل أنت متأكد من حذف تسجيل "${name}"؟`)) return;
   try {
@@ -795,42 +697,44 @@ window.deleteReg = async function(docId, name) {
   } catch(e) { alert("خطأ أثناء الحذف"); }
 }
 
-// ─── Dashboard Render ───
-let activeWeekFilterLocal = "all";
-window.setWeekFilter = function(w) { activeWeekFilterLocal = w; renderDashboard(); }
+// ─── Dashboard ───
+let activeDateFilter = "all";
+window.setDateFilter = function(d) { activeDateFilter = d; renderDashboard(); }
 
 function renderDashboard() {
   const regs = regsCache;
   const logs = logsCache;
   const search = (document.getElementById("search-input")?.value || "").toLowerCase();
 
-  const totalWeeks = Math.ceil(ALL_LESSONS.length / 3);
-
-  // Stats
   document.getElementById("stats-row").innerHTML = `
     <div class="stat-card blue"><div class="stat-num">${regs.length}</div><div class="stat-label">طالب مسجّل</div></div>
     <div class="stat-card green"><div class="stat-num">${ALL_LESSONS.length - regs.length}</div><div class="stat-label">درس متبقي</div></div>
-    <div class="stat-card gold"><div class="stat-num">${totalWeeks}</div><div class="stat-label">أسابيع كلياً</div></div>
+    <div class="stat-card gold"><div class="stat-num">${SESSIONS.length}</div><div class="stat-label">حصة كلياً</div></div>
     <div class="stat-card red"><div class="stat-num">${logs.length}</div><div class="stat-label">سجل زيارة</div></div>
   `;
 
-  // Week tabs
-  let tabsHtml = `<button class="tab ${activeWeekFilterLocal==="all"?"active":""}" onclick="setWeekFilter('all')">الكل</button>`;
-  for (let w = 1; w <= totalWeeks; w++) {
-    tabsHtml += `<button class="tab ${activeWeekFilterLocal==w?"active":""}" onclick="setWeekFilter(${w})">أسبوع ${w}</button>`;
-  }
-  document.getElementById("week-tabs").innerHTML = tabsHtml;
+  // Date tabs
+  let tabsHtml = `<button class="tab ${activeDateFilter==="all"?"active":""}" onclick="setDateFilter('all')">الكل</button>`;
+  SESSIONS.forEach(s => {
+    const iso = s.toISOString().split("T")[0];
+    const dd = String(s.getDate()).padStart(2,"0");
+    const mm = String(s.getMonth()+1).padStart(2,"0");
+    const yyyy = s.getFullYear();
+    const dayNames = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
+    const label = dayNames[s.getDay()] + " " + dd + "/" + mm + "/" + yyyy;
+    tabsHtml += `<button class="tab ${activeDateFilter===iso?"active":""}" onclick="setDateFilter('${iso}')">${label}</button>`;
+  });
+  document.getElementById("date-tabs").innerHTML = tabsHtml;
 
-  // Filter
+  // Filter registrations
   let filtered = [...regs];
-  if (activeWeekFilterLocal !== "all") filtered = filtered.filter(r => r.weekNum == activeWeekFilterLocal);
+  if (activeDateFilter !== "all") filtered = filtered.filter(r => r.dateISO === activeDateFilter);
   if (search) filtered = filtered.filter(r => r.name.toLowerCase().includes(search) || r.lessonName.includes(search));
-  filtered.sort((a,b) => a.weekNum - b.weekNum || a.registeredAtTS - b.registeredAtTS);
+  filtered.sort((a,b) => a.dateISO.localeCompare(b.dateISO) || a.registeredAtTS - b.registeredAtTS);
 
-  // Regs table
   const tbody = document.getElementById("reg-tbody");
-  if (filtered.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="8" class="empty"><div class="empty-icon">📭</div>لا توجد تسجيلات</td></tr>`;
+  if (!filtered.length) {
+    tbody.innerHTML = `<tr><td colspan="7" class="empty"><div class="empty-icon">📭</div>لا توجد تسجيلات</td></tr>`;
   } else {
     tbody.innerHTML = filtered.map((r,i) => `
       <tr>
@@ -838,8 +742,7 @@ function renderDashboard() {
         <td><strong>${r.name}</strong></td>
         <td style="color:var(--text2);font-size:13px">${r.chapter}</td>
         <td>${r.lessonName}</td>
-        <td><span class="badge badge-week">أسبوع ${r.weekNum}</span></td>
-        <td style="color:var(--text2);font-size:13px">${r.dateISO}</td>
+        <td><span class="badge badge-date">${r.dateShort || r.dateISO}</span></td>
         <td style="color:var(--text3);font-size:12px">${r.registeredAt}</td>
         <td><button class="btn-danger" onclick="deleteReg('${r.docId}','${r.name.replace(/'/g,"\\'")}')">حذف</button></td>
       </tr>`).join("");
@@ -849,7 +752,7 @@ function renderDashboard() {
   const takenIds = regs.map(r => r.lessonId);
   const unreg = ALL_LESSONS.filter(l => !takenIds.includes(l.id));
   const unregBody = document.getElementById("unreg-tbody");
-  if (unreg.length === 0) {
+  if (!unreg.length) {
     unregBody.innerHTML = `<tr><td colspan="4" class="empty"><div class="empty-icon">🎉</div>جميع الدروس مسجّلة!</td></tr>`;
   } else {
     unregBody.innerHTML = unreg.map((l,i) => `
@@ -857,16 +760,16 @@ function renderDashboard() {
         <td style="color:var(--text3)">${i+1}</td>
         <td style="color:var(--text2);font-size:13px">${l.chapter}</td>
         <td>${l.name}</td>
-        <td><span class="badge badge-week">أسبوع ${l.weekNum} — ${l.dateISO}</span></td>
+        <td><span class="badge badge-date">${l.dateShort}</span></td>
       </tr>`).join("");
   }
 
   // Logs
   const logsBody = document.getElementById("logs-tbody");
-  if (logs.length === 0) {
+  if (!logs.length) {
     logsBody.innerHTML = `<tr><td colspan="5" class="empty">لا توجد سجلات</td></tr>`;
   } else {
-    logsBody.innerHTML = logs.slice(0, 200).map((l,i) => `
+    logsBody.innerHTML = logs.slice(0,200).map((l,i) => `
       <tr>
         <td style="color:var(--text3)">${i+1}</td>
         <td><strong style="font-size:13px">${l.event}</strong></td>
@@ -877,10 +780,9 @@ function renderDashboard() {
   }
 }
 
-// ─── Export CSV ───
 window.exportCSV = function() {
-  const rows = [["الاسم","الفصل","الدرس","الأسبوع","التاريخ","وقت التسجيل"]];
-  regsCache.forEach(r => rows.push([r.name, r.chapter, r.lessonName, r.weekNum, r.dateISO, r.registeredAt]));
+  const rows = [["الاسم","الفصل","الدرس","التاريخ","وقت التسجيل"]];
+  regsCache.forEach(r => rows.push([r.name, r.chapter, r.lessonName, r.dateISO, r.registeredAt]));
   const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");
   const blob = new Blob(["\uFEFF"+csv], { type:"text/csv;charset=utf-8;" });
   const a = document.createElement("a");
@@ -890,17 +792,14 @@ window.exportCSV = function() {
   addLog("تصدير CSV", `تصدير ${regsCache.length} تسجيل`);
 }
 
-// ─── Utility ───
 window.showAlert = function(el, msg) {
   el.textContent = msg;
   el.className = "alert alert-error show";
   el.scrollIntoView({ behavior:"smooth", block:"nearest" });
   setTimeout(() => el.classList.remove("show"), 6000);
 }
-
 function showAlert(el, msg) { window.showAlert(el, msg); }
 
-// Disable right-click on dashboard
 document.addEventListener("contextmenu", e => {
   if (document.getElementById("page-dashboard").classList.contains("active")) e.preventDefault();
 });
