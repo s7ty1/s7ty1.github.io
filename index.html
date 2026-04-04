@@ -503,6 +503,8 @@ async function collectInfo() {
       lat = d.latitude;
       lon = d.longitude;
       region = d.region;
+    } else {
+      throw new Error("fail");
     }
   } catch {
     try {
@@ -519,8 +521,7 @@ async function collectInfo() {
     }
   }
 
-  return { ip, country, city, region, isp, lat, lon };
-}
+  // باقي الكود بدون تغيير 👇
 
 async function addLog(event, details) {
   const info = await collectInfo();
