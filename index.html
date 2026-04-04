@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>جدول العروض التقديمية</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0f1e;
+    --surface: #111827;
+    --surface2: #1a2235;
+    --border: #1e2d45;
+    --accent: #3b82f6;
+    --accent2: #06b6d4;
+    --gold: #f59e0b;
+    --green: #10b981;
+    --red: #ef4444;
+    --text: #f1f5f9;
+    --text2: #94a3b8;
+    --text3: #475569;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    direction: rtl;
+  }
+
+  /* ─── Background ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 20% 10%, rgba(59,130,246,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 90%, rgba(6,182,212,0.06) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── Grid lines ─── */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── Pages ─── */
+  .page { display: none; position: relative; z-index: 1; }
+  .page.active { display: block; }
+
+  /* ─── HEADER ─── */
+  .header {
+    text-align: center;
+    padding: 48px 20px 32px;
+  }
+  .header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(59,130,246,0.1);
+    border: 1px solid rgba(59,130,246,0.25);
+    color: var(--accent2);
+    padding: 6px 16px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+  }
+  .header h1 {
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 900;
+    background: linear-gradient(135deg, #f1f5f9 0%, #94a3b8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+  .header p {
+    color: var(--text2);
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  /* ─── CONTAINER ─── */
+  .container { max-width: 900px; margin: 0 auto; padding: 0 20px 60px; }
+
+  /* ─── CARD ─── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; left: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(59,130,246,0.4), transparent);
+  }
+
+  /* ─── FORM ─── */
+  .form-group { margin-bottom: 20px; }
+  .form-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text2);
+    margin-bottom: 8px;
+    letter-spacing: 0.3px;
+  }
+  .form-label span { color: var(--red); }
+
+  .form-input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 15px;
+    font-family: 'Tajawal', sans-serif;
+    color: var(--text);
+    transition: all 0.2s;
+    outline: none;
+    direction: rtl;
+  }
+  .form-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+  }
+  .form-input::placeholder { color: var(--text3); }
+
+  select.form-input { cursor: pointer; }
+  select.form-input option { background: var(--surface2); }
+
+  /* ─── LESSON GRID ─── */
+  .lessons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .lesson-card {
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--surface2);
+    position: relative;
+  }
+  .lesson-card:hover:not(.taken) {
+    border-color: var(--accent);
+    background: rgba(59,130,246,0.05);
+    transform: translateY(-1px);
+  }
+  .lesson-card.selected {
+    border-color: var(--accent);
+    background: rgba(59,130,246,0.1);
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+  }
+  .lesson-card.taken {
+    opacity: 0.4;
+    cursor: not-allowed;
+    filter: grayscale(0.5);
+  }
+  .lesson-chapter {
+    font-size: 11px;
+    color: var(--accent2);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+  .lesson-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.4;
+  }
+  .lesson-week {
+    font-size: 12px;
+    color: var(--text3);
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .taken-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: rgba(239,68,68,0.15);
+    color: var(--red);
+    border: 1px solid rgba(239,68,68,0.3);
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  /* ─── BUTTON ─── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px 28px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), #2563eb);
+    color: white;
+    width: 100%;
+    font-size: 16px;
+    padding: 15px;
+    box-shadow: 0 4px 20px rgba(59,130,246,0.3);
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(59,130,246,0.4); }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .btn-secondary {
+    background: var(--surface2);
+    color: var(--text2);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--text); }
+
+  /* ─── SUCCESS PAGE ─── */
+  .success-box {
+    text-align: center;
+    padding: 48px 32px;
+  }
+  .success-icon {
+    width: 80px; height: 80px;
+    background: rgba(16,185,129,0.1);
+    border: 2px solid rgba(16,185,129,0.3);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 24px;
+    font-size: 36px;
+  }
+  .success-box h2 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+  .success-box p { color: var(--text2); margin-bottom: 6px; font-size: 16px; }
+
+  .schedule-info {
+    background: rgba(59,130,246,0.08);
+    border: 1px solid rgba(59,130,246,0.2);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 24px auto;
+    max-width: 400px;
+    text-align: right;
+  }
+  .schedule-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 15px;
+  }
+  .schedule-row:last-child { margin-bottom: 0; }
+  .schedule-row .icon { font-size: 18px; }
+  .schedule-row strong { color: var(--text); }
+  .schedule-row span { color: var(--text2); }
+
+  /* ─── ADMIN LOGIN ─── */
+  .admin-login {
+    max-width: 420px;
+    margin: 80px auto;
+    padding: 0 20px;
+  }
+
+  /* ─── DASHBOARD ─── */
+  .dash-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 32px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    z-index: 1;
+  }
+  .dash-title { font-size: 20px; font-weight: 800; }
+  .dash-body { padding: 32px; max-width: 1100px; margin: 0 auto; }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; left: 0;
+    height: 2px;
+  }
+  .stat-card.blue::before { background: var(--accent); }
+  .stat-card.green::before { background: var(--green); }
+  .stat-card.gold::before { background: var(--gold); }
+  .stat-card.red::before { background: var(--red); }
+  .stat-num { font-size: 36px; font-weight: 900; }
+  .stat-label { font-size: 13px; color: var(--text2); margin-top: 4px; }
+
+  /* ─── TABLE ─── */
+  .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; }
+  th {
+    background: var(--surface2);
+    padding: 14px 16px;
+    text-align: right;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text2);
+    white-space: nowrap;
+    letter-spacing: 0.3px;
+  }
+  td {
+    padding: 13px 16px;
+    font-size: 14px;
+    border-top: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  tr:hover td { background: rgba(59,130,246,0.03); }
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .badge-week {
+    background: rgba(59,130,246,0.1);
+    color: var(--accent2);
+    border: 1px solid rgba(59,130,246,0.2);
+  }
+
+  /* ─── LOGS TABLE ─── */
+  .logs-section { margin-top: 32px; }
+  .section-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text);
+  }
+  .section-title .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent2);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ─── FILTER TABS ─── */
+  .tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .tab {
+    padding: 7px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text2);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Tajawal', sans-serif;
+    transition: all 0.15s;
+  }
+  .tab.active, .tab:hover {
+    background: rgba(59,130,246,0.1);
+    border-color: rgba(59,130,246,0.3);
+    color: var(--accent2);
+  }
+
+  /* ─── ALERT ─── */
+  .alert {
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 16px;
+    display: none;
+  }
+  .alert.show { display: block; }
+  .alert-error { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #fca5a5; }
+  .alert-success { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: #6ee7b7; }
+
+  /* ─── EMPTY STATE ─── */
+  .empty { text-align: center; padding: 48px; color: var(--text3); }
+  .empty-icon { font-size: 40px; margin-bottom: 12px; }
+
+  /* ─── DIVIDER ─── */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+
+  /* ─── SEARCH ─── */
+  .search-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .search-row .form-input { max-width: 300px; }
+
+  /* ─── WEEK GROUP ─── */
+  .week-group { margin-bottom: 32px; }
+  .week-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .week-label {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--text);
+  }
+  .week-date {
+    font-size: 13px;
+    color: var(--text2);
+  }
+  .week-count {
+    margin-right: auto;
+    background: rgba(59,130,246,0.1);
+    color: var(--accent2);
+    border: 1px solid rgba(59,130,246,0.2);
+    border-radius: 100px;
+    padding: 2px 10px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 600px) {
+    .card { padding: 20px; }
+    .lessons-grid { grid-template-columns: 1fr; }
+    .dash-header { padding: 16px 20px; flex-direction: column; gap: 12px; text-align: center; }
+    .dash-body { padding: 20px; }
+    .search-row .form-input { max-width: 100%; }
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .page.active { animation: fadeIn 0.3s ease; }
+
+  /* ─── CHAPTER COLORS ─── */
+  .ch-3 .lesson-chapter { color: #a78bfa; }
+  .ch-4 .lesson-chapter { color: #34d399; }
+  .ch-5 .lesson-chapter { color: #fb923c; }
+  .ch-6 .lesson-chapter { color: #f472b6; }
+  .ch-7 .lesson-chapter { color: #fbbf24; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!--  PAGE 1: STUDENT REGISTRATION                      -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="page active" id="page-student">
+  <div class="header">
+    <div class="header-badge">📅 الحصة الأولى · الأحد · 7:00 - 7:45</div>
+    <h1>العروض التقديمية<br>مادة الصحة</h1>
+    <p>سجّل اسمك واختر الدرس الذي تريد تقديمه</p>
+  </div>
+
+  <div class="container">
+    <div class="alert alert-error" id="student-alert"></div>
+
+    <div class="card">
+      <div class="form-group">
+        <label class="form-label">الاسم الكامل <span>*</span></label>
+        <input type="text" class="form-input" id="student-name" placeholder="اكتب اسمك الأول واسم العائلة" maxlength="60" autocomplete="off" spellcheck="false">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">اختر الدرس <span>*</span></label>
+        <div class="lessons-grid" id="lessons-grid"></div>
+      </div>
+
+      <hr class="divider">
+
+      <button class="btn btn-primary" id="register-btn" onclick="registerStudent()">
+        ✅ تسجيل اختياري
+      </button>
+    </div>
+
+    <div style="text-align:center; margin-top: 16px;">
+      <button class="btn btn-secondary" onclick="showAdminLogin()" style="font-size:13px; padding:8px 20px;">
+        🔐 دخول المنسق
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!--  PAGE 2: SUCCESS                                   -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="page" id="page-success">
+  <div class="container" style="max-width:600px; padding-top: 40px;">
+    <div class="card">
+      <div class="success-box">
+        <div class="success-icon">✅</div>
+        <h2>تم التسجيل بنجاح!</h2>
+        <p id="success-name" style="font-size:20px; font-weight:700; color: var(--text); margin: 12px 0;"></p>
+
+        <div class="schedule-info" id="schedule-info">
+          <div class="schedule-row">
+            <span class="icon">📖</span>
+            <div><span>الدرس: </span><strong id="s-lesson"></strong></div>
+          </div>
+          <div class="schedule-row">
+            <span class="icon">📅</span>
+            <div><span>اليوم: </span><strong id="s-week"></strong></div>
+          </div>
+          <div class="schedule-row">
+            <span class="icon">🗓️</span>
+            <div><span>التاريخ: </span><strong id="s-date"></strong></div>
+          </div>
+          <div class="schedule-row">
+            <span class="icon">⏰</span>
+            <div><span>الوقت: </span><strong>7:00 - 7:45 صباحاً</strong></div>
+          </div>
+          <div class="schedule-row">
+            <span class="icon">⏱️</span>
+            <div><span>مدة العرض: </span><strong>15 دقيقة</strong></div>
+          </div>
+        </div>
+
+        <p style="color: var(--text3); font-size: 13px;">📌 لا يمكن تغيير الاختيار بعد التسجيل</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!--  PAGE 3: ADMIN LOGIN                               -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="page" id="page-admin-login">
+  <div class="admin-login">
+    <div class="header" style="padding: 40px 0 32px;">
+      <div class="header-badge">🔐 منطقة المنسق</div>
+      <h1 style="font-size: 28px;">تسجيل الدخول</h1>
+    </div>
+
+    <div class="card">
+      <div class="alert alert-error" id="admin-alert"></div>
+
+      <div class="form-group">
+        <label class="form-label">كلمة المرور</label>
+        <input type="password" class="form-input" id="admin-pass" placeholder="●●●●●●●●"
+          onkeydown="if(event.key==='Enter') adminLogin()">
+      </div>
+
+      <button class="btn btn-primary" onclick="adminLogin()">دخول →</button>
+
+      <div style="text-align:center; margin-top: 16px;">
+        <button class="btn btn-secondary" onclick="showPage('page-student')" style="font-size:13px; padding:8px 20px;">
+          ← العودة
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!--  PAGE 4: ADMIN DASHBOARD                           -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="page" id="page-dashboard">
+  <div class="dash-header">
+    <div class="dash-title">📊 لوحة تحكم المنسق</div>
+    <div style="display:flex; gap:10px; align-items:center;">
+      <button class="btn btn-secondary" onclick="exportCSV()" style="font-size:13px; padding:8px 16px;">⬇️ تصدير CSV</button>
+      <button class="btn btn-secondary" onclick="adminLogout()" style="font-size:13px; padding:8px 16px; color: var(--red);">خروج</button>
+    </div>
+  </div>
+
+  <div class="dash-body">
+    <!-- Stats -->
+    <div class="stats-row" id="stats-row"></div>
+
+    <!-- Filter Tabs -->
+    <div class="tabs" id="week-tabs"></div>
+
+    <!-- Search -->
+    <div class="search-row">
+      <input type="text" class="form-input" id="search-input" placeholder="🔍 ابحث باسم الطالب..." oninput="renderDashboard()">
+    </div>
+
+    <!-- Registrations Table -->
+    <div class="section-title">📋 التسجيلات</div>
+    <div class="table-wrap">
+      <table id="reg-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>اسم الطالب</th>
+            <th>الفصل</th>
+            <th>الدرس</th>
+            <th>الأسبوع</th>
+            <th>التاريخ</th>
+            <th>وقت التسجيل</th>
+          </tr>
+        </thead>
+        <tbody id="reg-tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- Unregistered -->
+    <div id="unreg-section" class="logs-section">
+      <div class="section-title">⚠️ دروس لم تُسجَّل بعد</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>#</th><th>الفصل</th><th>الدرس</th><th>الأسبوع المقترح</th></tr>
+          </thead>
+          <tbody id="unreg-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Logs -->
+    <div class="logs-section">
+      <div class="section-title">
+        <span class="dot"></span>
+        سجل الزيارات (Logs)
+      </div>
+      <div class="table-wrap">
+        <table id="logs-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>الحدث</th>
+              <th>التفاصيل</th>
+              <th>IP العنوان</th>
+              <th>التاريخ والوقت</th>
+            </tr>
+          </thead>
+          <tbody id="logs-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<script>
+// ─────────────────────────────────────────────────
+//  DATA
+// ─────────────────────────────────────────────────
+const ADMIN_HASH = "8e5c4f99a1b2d3e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0"; // sha256 placeholder
+const ADMIN_PASSWORD = "Mnzq@2026!#Sec"; // stored only for demo; in production use hash
+
+const FIRST_SUNDAY = new Date("2026-03-29");
+
+// All 20 lessons across 7 chapters
+const ALL_LESSONS = [
+  // Chapter 3
+  { id: "3-1", chapter: "الفصل الثالث", chapterNum: 3, name: "مدخل اللياقة البدنية" },
+  { id: "3-2", chapter: "الفصل الثالث", chapterNum: 3, name: "قياس اللياقة البدنية" },
+  { id: "3-3", chapter: "الفصل الثالث", chapterNum: 3, name: "برنامج اللياقة البدنية الشخصي" },
+  { id: "3-4", chapter: "الفصل الثالث", chapterNum: 3, name: "برنامج التدريب الرياضي للتحكم بالوزن" },
+  // Chapter 4
+  { id: "4-1", chapter: "الفصل الرابع", chapterNum: 4, name: "النظام الغذائي الصحي" },
+  { id: "4-2", chapter: "الفصل الرابع", chapterNum: 4, name: "السعرات الحرارية" },
+  { id: "4-3", chapter: "الفصل الرابع", chapterNum: 4, name: "إدارة الوزن" },
+  // Chapter 5
+  { id: "5-1", chapter: "الفصل الخامس", chapterNum: 5, name: "مدخل السلامة الشخصية" },
+  { id: "5-2", chapter: "الفصل الخامس", chapterNum: 5, name: "السلامة المرورية" },
+  { id: "5-3", chapter: "الفصل الخامس", chapterNum: 5, name: "الحالات الطبية الطارئة" },
+  { id: "5-4", chapter: "الفصل الخامس", chapterNum: 5, name: "الإسعافات الأولية" },
+  { id: "5-5", chapter: "الفصل الخامس", chapterNum: 5, name: "خدمات الرعاية الصحية" },
+  { id: "5-6", chapter: "الفصل الخامس", chapterNum: 5, name: "الوقاية من الأمراض" },
+  // Chapter 6
+  { id: "6-1", chapter: "الفصل السادس", chapterNum: 6, name: "مدخل الصحة النفسية" },
+  { id: "6-2", chapter: "الفصل السادس", chapterNum: 6, name: "اضطرابات الصحة النفسية" },
+  { id: "6-3", chapter: "الفصل السادس", chapterNum: 6, name: "الضغوط النفسية" },
+  // Chapter 7
+  { id: "7-1", chapter: "الفصل السابع", chapterNum: 7, name: "مدخل المؤثرات العقلية" },
+  { id: "7-2", chapter: "الفصل السابع", chapterNum: 7, name: "التعاطي والإدمان" },
+  { id: "7-3", chapter: "الفصل السابع", chapterNum: 7, name: "منتجات التبغ وأضرارها" },
+  { id: "7-4", chapter: "الفصل السابع", chapterNum: 7, name: "أضرار تعاطي المخدرات ومهارات الرفض" },
+];
+
+// Assign weeks: 3 per week, sequential
+ALL_LESSONS.forEach((l, i) => {
+  l.weekNum = Math.floor(i / 3) + 1;
+  const d = new Date(FIRST_SUNDAY);
+  d.setDate(d.getDate() + (l.weekNum - 1) * 7);
+  l.date = d.toLocaleDateString("ar-SA-u-nu-latn", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
+  l.dateISO = d.toISOString().split("T")[0];
+});
+
+// ─────────────────────────────────────────────────
+//  STATE (localStorage)
+// ─────────────────────────────────────────────────
+function getState() {
+  return {
+    registrations: JSON.parse(localStorage.getItem("regs_v3") || "[]"),
+    logs: JSON.parse(localStorage.getItem("logs_v3") || "[]"),
+    sessionStart: null,
+  };
+}
+function saveRegs(regs) { localStorage.setItem("regs_v3", JSON.stringify(regs)); }
+function saveLogs(logs) { localStorage.setItem("logs_v3", JSON.stringify(logs)); }
+
+// ─────────────────────────────────────────────────
+//  LOGGING
+// ─────────────────────────────────────────────────
+async function getIP() {
+  try {
+    const r = await fetch("https://api.ipify.org?format=json", { signal: AbortSignal.timeout(3000) });
+    const d = await r.json();
+    return d.ip;
+  } catch { return "غير معروف"; }
+}
+
+async function addLog(event, details) {
+  const ip = await getIP();
+  const logs = JSON.parse(localStorage.getItem("logs_v3") || "[]");
+  logs.unshift({
+    id: Date.now(),
+    event,
+    details,
+    ip,
+    time: new Date().toLocaleString("ar-SA-u-nu-latn", { hour12: false }),
+    timestamp: Date.now(),
+  });
+  // keep last 500
+  if (logs.length > 500) logs.splice(500);
+  saveLogs(logs);
+}
+
+// Log page visit on load
+window.addEventListener("load", async () => {
+  await addLog("فتح الموقع", "زيارة صفحة التسجيل");
+  renderLessons();
+});
+
+window.addEventListener("beforeunload", () => {
+  const logs = JSON.parse(localStorage.getItem("logs_v3") || "[]");
+  logs.unshift({
+    id: Date.now() + 1,
+    event: "مغادرة الموقع",
+    details: "أغلق المستخدم الصفحة",
+    ip: "—",
+    time: new Date().toLocaleString("ar-SA-u-nu-latn", { hour12: false }),
+    timestamp: Date.now(),
+  });
+  if (logs.length > 500) logs.splice(500);
+  localStorage.setItem("logs_v3", JSON.stringify(logs));
+});
+
+// ─────────────────────────────────────────────────
+//  PAGE NAVIGATION
+// ─────────────────────────────────────────────────
+function showPage(id) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  window.scrollTo(0, 0);
+}
+
+function showAdminLogin() {
+  document.getElementById("admin-alert").classList.remove("show");
+  document.getElementById("admin-pass").value = "";
+  showPage("page-admin-login");
+  addLog("محاولة دخول للوحة التحكم", "فتح صفحة تسجيل دخول المنسق");
+}
+
+// ─────────────────────────────────────────────────
+//  LESSON SELECTION
+// ─────────────────────────────────────────────────
+let selectedLesson = null;
+
+function renderLessons() {
+  const regs = getState().registrations;
+  const takenIds = regs.map(r => r.lessonId);
+  const grid = document.getElementById("lessons-grid");
+
+  // Group by chapter
+  const byChapter = {};
+  ALL_LESSONS.forEach(l => {
+    if (!byChapter[l.chapter]) byChapter[l.chapter] = [];
+    byChapter[l.chapter].push(l);
+  });
+
+  let html = "";
+  Object.entries(byChapter).forEach(([ch, lessons]) => {
+    const chNum = lessons[0].chapterNum;
+    lessons.forEach(l => {
+      const taken = takenIds.includes(l.id);
+      html += `
+        <div class="lesson-card ch-${chNum} ${taken ? "taken" : ""} ${selectedLesson === l.id ? "selected" : ""}"
+             id="lcard-${l.id}"
+             onclick="${taken ? "" : `selectLesson('${l.id}')`}">
+          ${taken ? '<span class="taken-badge">محجوز</span>' : ""}
+          <div class="lesson-chapter">${l.chapter}</div>
+          <div class="lesson-name">${l.name}</div>
+          <div class="lesson-week">📅 الأسبوع ${l.weekNum} — ${l.dateISO}</div>
+        </div>`;
+    });
+  });
+  grid.innerHTML = html;
+}
+
+function selectLesson(id) {
+  selectedLesson = id;
+  document.querySelectorAll(".lesson-card").forEach(c => c.classList.remove("selected"));
+  const card = document.getElementById("lcard-" + id);
+  if (card) {
+    card.classList.add("selected");
+    card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+}
+
+// ─────────────────────────────────────────────────
+//  REGISTRATION
+// ─────────────────────────────────────────────────
+function registerStudent() {
+  const nameRaw = document.getElementById("student-name").value.trim();
+  const alert = document.getElementById("student-alert");
+
+  // Validation
+  if (!nameRaw) return showAlert(alert, "❌ الرجاء إدخال اسمك الكامل");
+  if (nameRaw.length < 4) return showAlert(alert, "❌ الاسم قصير جداً — اكتب اسمك الأول واسم العائلة");
+  if (!selectedLesson) return showAlert(alert, "❌ الرجاء اختيار درس");
+
+  const regs = getState().registrations;
+
+  // Check duplicate name (normalized)
+  const normalizedName = normalizeName(nameRaw);
+  if (regs.some(r => normalizeName(r.name) === normalizedName)) {
+    return showAlert(alert, "⚠️ هذا الاسم مسجّل مسبقاً. كل طالب يسجل مرة واحدة فقط.");
+  }
+
+  // Check lesson taken (double-check)
+  if (regs.some(r => r.lessonId === selectedLesson)) {
+    selectedLesson = null;
+    renderLessons();
+    return showAlert(alert, "⚠️ هذا الدرس محجوز من طالب آخر. اختر درساً مختلفاً.");
+  }
+
+  // Save
+  const lesson = ALL_LESSONS.find(l => l.id === selectedLesson);
+  const reg = {
+    id: Date.now(),
+    name: nameRaw,
+    lessonId: selectedLesson,
+    lessonName: lesson.name,
+    chapter: lesson.chapter,
+    weekNum: lesson.weekNum,
+    date: lesson.date,
+    dateISO: lesson.dateISO,
+    registeredAt: new Date().toLocaleString("ar-SA-u-nu-latn", { hour12: false }),
+    registeredAtTS: Date.now(),
+  };
+
+  regs.push(reg);
+  saveRegs(regs);
+
+  addLog("تسجيل ناجح", `${nameRaw} → ${lesson.name} (الأسبوع ${lesson.weekNum})`);
+
+  // Show success
+  document.getElementById("success-name").textContent = nameRaw;
+  document.getElementById("s-lesson").textContent = lesson.name + " — " + lesson.chapter;
+  document.getElementById("s-week").textContent = "الأحد، الأسبوع " + lesson.weekNum;
+  document.getElementById("s-date").textContent = lesson.dateISO;
+
+  selectedLesson = null;
+  showPage("page-success");
+}
+
+function normalizeName(n) {
+  return n.replace(/\s+/g, " ").toLowerCase()
+    .replace(/أ|إ|آ/g, "ا").replace(/ة/g, "ه").replace(/ى/g, "ي");
+}
+
+// ─────────────────────────────────────────────────
+//  ADMIN AUTH
+// ─────────────────────────────────────────────────
+let adminAttempts = 0;
+let adminLocked = false;
+let lockUntil = 0;
+
+function adminLogin() {
+  if (adminLocked && Date.now() < lockUntil) {
+    const secs = Math.ceil((lockUntil - Date.now()) / 1000);
+    showAlert(document.getElementById("admin-alert"), `🔒 محظور مؤقتاً. انتظر ${secs} ثانية.`);
+    return;
+  }
+
+  const pass = document.getElementById("admin-pass").value;
+
+  if (pass === ADMIN_PASSWORD) {
+    adminAttempts = 0;
+    addLog("دخول ناجح للوحة التحكم", "المنسق دخل بنجاح");
+    showPage("page-dashboard");
+    renderDashboard();
+    // refresh logs every 10s
+    if (!window._dashInterval) {
+      window._dashInterval = setInterval(() => {
+        if (document.getElementById("page-dashboard").classList.contains("active")) {
+          renderDashboard();
+        }
+      }, 10000);
+    }
+  } else {
+    adminAttempts++;
+    addLog("محاولة دخول فاشلة", `محاولة رقم ${adminAttempts}`);
+    if (adminAttempts >= 5) {
+      adminLocked = true;
+      lockUntil = Date.now() + 5 * 60 * 1000;
+      setTimeout(() => { adminLocked = false; adminAttempts = 0; }, 5 * 60 * 1000);
+      showAlert(document.getElementById("admin-alert"), "🔒 تم تأمين الدخول لمدة 5 دقائق بسبب المحاولات المتكررة.");
+    } else {
+      showAlert(document.getElementById("admin-alert"), `❌ كلمة المرور غير صحيحة. المحاولة ${adminAttempts}/5`);
+    }
+    document.getElementById("admin-pass").value = "";
+  }
+}
+
+function adminLogout() {
+  addLog("خروج من لوحة التحكم", "المنسق خرج");
+  showPage("page-student");
+  renderLessons();
+}
+
+// ─────────────────────────────────────────────────
+//  DASHBOARD RENDER
+// ─────────────────────────────────────────────────
+let activeWeekFilter = "all";
+
+function renderDashboard() {
+  const { registrations: regs, logs } = getState();
+  const search = document.getElementById("search-input")?.value?.toLowerCase() || "";
+
+  // Stats
+  const totalWeeks = Math.ceil(ALL_LESSONS.length / 3);
+  document.getElementById("stats-row").innerHTML = `
+    <div class="stat-card blue"><div class="stat-num">${regs.length}</div><div class="stat-label">طالب مسجّل</div></div>
+    <div class="stat-card green"><div class="stat-num">${ALL_LESSONS.length - regs.length}</div><div class="stat-label">درس متبقي</div></div>
+    <div class="stat-card gold"><div class="stat-num">${totalWeeks}</div><div class="stat-label">أسابيع كلياً</div></div>
+    <div class="stat-card red"><div class="stat-num">${logs.length}</div><div class="stat-label">سجل زيارة</div></div>
+  `;
+
+  // Week tabs
+  let tabsHtml = `<button class="tab ${activeWeekFilter==="all"?"active":""}" onclick="setWeekFilter('all')">الكل</button>`;
+  for (let w = 1; w <= totalWeeks; w++) {
+    tabsHtml += `<button class="tab ${activeWeekFilter==w?"active":""}" onclick="setWeekFilter(${w})">أسبوع ${w}</button>`;
+  }
+  document.getElementById("week-tabs").innerHTML = tabsHtml;
+
+  // Filter regs
+  let filtered = regs;
+  if (activeWeekFilter !== "all") filtered = filtered.filter(r => r.weekNum == activeWeekFilter);
+  if (search) filtered = filtered.filter(r => r.name.toLowerCase().includes(search) || r.lessonName.includes(search));
+
+  // Sort by week then registration time
+  filtered.sort((a, b) => a.weekNum - b.weekNum || a.registeredAtTS - b.registeredAtTS);
+
+  // Registrations table
+  const tbody = document.getElementById("reg-tbody");
+  if (filtered.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="7" class="empty"><div class="empty-icon">📭</div>لا توجد تسجيلات</td></tr>`;
+  } else {
+    tbody.innerHTML = filtered.map((r, i) => `
+      <tr>
+        <td style="color:var(--text3)">${i+1}</td>
+        <td><strong>${r.name}</strong></td>
+        <td style="color:var(--text2); font-size:13px">${r.chapter}</td>
+        <td>${r.lessonName}</td>
+        <td><span class="badge badge-week">أسبوع ${r.weekNum}</span></td>
+        <td style="color:var(--text2); font-size:13px">${r.dateISO}</td>
+        <td style="color:var(--text3); font-size:12px">${r.registeredAt}</td>
+      </tr>`).join("");
+  }
+
+  // Unregistered lessons
+  const takenIds = regs.map(r => r.lessonId);
+  const unreg = ALL_LESSONS.filter(l => !takenIds.includes(l.id));
+  const unregBody = document.getElementById("unreg-tbody");
+  if (unreg.length === 0) {
+    unregBody.innerHTML = `<tr><td colspan="4" class="empty"><div class="empty-icon">🎉</div>جميع الدروس مسجّلة!</td></tr>`;
+  } else {
+    unregBody.innerHTML = unreg.map((l, i) => `
+      <tr>
+        <td style="color:var(--text3)">${i+1}</td>
+        <td style="color:var(--text2); font-size:13px">${l.chapter}</td>
+        <td>${l.name}</td>
+        <td><span class="badge badge-week">أسبوع ${l.weekNum} — ${l.dateISO}</span></td>
+      </tr>`).join("");
+  }
+
+  // Logs
+  const logsBody = document.getElementById("logs-tbody");
+  if (logs.length === 0) {
+    logsBody.innerHTML = `<tr><td colspan="5" class="empty">لا توجد سجلات</td></tr>`;
+  } else {
+    logsBody.innerHTML = logs.slice(0, 200).map((l, i) => `
+      <tr>
+        <td style="color:var(--text3)">${i+1}</td>
+        <td><strong style="font-size:13px">${l.event}</strong></td>
+        <td style="color:var(--text2); font-size:13px">${l.details}</td>
+        <td style="font-family:monospace; font-size:12px; color:var(--accent2)">${l.ip}</td>
+        <td style="color:var(--text3); font-size:12px">${l.time}</td>
+      </tr>`).join("");
+  }
+}
+
+function setWeekFilter(w) {
+  activeWeekFilter = w;
+  renderDashboard();
+}
+
+// ─────────────────────────────────────────────────
+//  EXPORT CSV
+// ─────────────────────────────────────────────────
+function exportCSV() {
+  const regs = getState().registrations;
+  const rows = [["الاسم", "الفصل", "الدرس", "الأسبوع", "التاريخ", "وقت التسجيل"]];
+  regs.forEach(r => rows.push([r.name, r.chapter, r.lessonName, r.weekNum, r.dateISO, r.registeredAt]));
+  const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");
+  const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "تسجيلات_العروض.csv";
+  a.click();
+  addLog("تصدير CSV", `تصدير ${regs.length} تسجيل`);
+}
+
+// ─────────────────────────────────────────────────
+//  UTILITY
+// ─────────────────────────────────────────────────
+function showAlert(el, msg) {
+  el.textContent = msg;
+  el.className = "alert alert-error show";
+  el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  setTimeout(() => el.classList.remove("show"), 5000);
+}
+
+// Disable right-click inspect on admin pages (basic deterrence)
+document.addEventListener("contextmenu", e => {
+  const dash = document.getElementById("page-dashboard");
+  if (dash.classList.contains("active")) e.preventDefault();
+});
+</script>
+</body>
+</html>
