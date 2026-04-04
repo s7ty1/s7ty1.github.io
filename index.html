@@ -418,12 +418,15 @@ const auth = getAuth(app);
 // Holidays: Fri+Sat always off. Eid Al-Adha: 15/05 - 01/06 (inclusive)
 function generateSessions() {
   const sessions = [];
-  let current = new Date("2026-03-29"); // First Sunday
-  const eidStart = new Date("2026-05-15");
-  const eidEnd   = new Date("2026-06-01"); // last day of holiday
+  // أول أحد بعد 2026-04-09
+  let current = new Date("2026-04-09");
+  while (current.getDay() !== 0) current.setDate(current.getDate() + 1);
 
-  while (sessions.length < 7) { // We need 7 sessions for 20 lessons (3+3+3+3+3+3+2)
-    // Skip if within Eid holiday range
+  const eidStart = new Date("2026-05-15");
+  const eidEnd   = new Date("2026-06-01"); // آخر يوم إجازة
+
+  const needed = Math.ceil(20 / 3); // 7 حصص
+  while (sessions.length < needed) {
     if (current >= eidStart && current <= eidEnd) {
       current = new Date(current);
       current.setDate(current.getDate() + 7);
