@@ -490,35 +490,50 @@ let unsubLogs = null;
 // ─── Collect full device/network info ───
 async function collectInfo() {
   let ip = "غير معروف", country = "", city = "", isp = "", lat = "", lon = "", region = "";
-
   try {
-    const r = await fetch("https://ipwho.is/");
+    const r = await fetch("https://ipwho.is/", { signal: AbortSignal.timeout(5000) });
     const d = await r.json();
-
     if (d.success) {
-      ip = d.ip;
-      country = d.country;
-      city = d.city;
-      isp = d.connection?.isp || "";
-      lat = d.latitude;
-      lon = d.longitude;
-      region = d.region;
+      ip = d.ip; country = d.country; city = d.city;
+      isp = d.connection?.isp || d.connection?.org || "";
+      lat = d.latitude; lon = d.longitude; region = d.region;
     }
-  } catch {}
+  } catch {
+    try {
+      const r2 = await fetch("https://api.ipify.org?format=json", { signal: AbortSignal.timeout(3000) });
+      ip = (await r2.json()).ip;
+    } catch {}
+  }
 
-  // ❗ هذا مهم جدًا
-  return {
-    ip, country, city, isp, lat, lon, region,
-    os: navigator.platform,
-    browser: navigator.userAgent,
-    deviceType: /Mobi|Android/i.test(navigator.userAgent) ? "جوال" : "كمبيوتر",
-    screen_res: `${screen.width}x${screen.height}`,
-    window_res: `${innerWidth}x${innerHeight}`,
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    language: navigator.language,
-    referrer: document.referrer,
-    connType: navigator.connection?.effectiveType || ""
-  };
+  const ua = navigator.userAgent;
+  let os = "غير معروف";
+  if (/Windows NT 10/.test(ua)) os = "Windows 10/11";
+  else if (/Windows NT 6.3/.test(ua)) os = "Windows 8.1";
+  else if (/Windows NT 6.1/.test(ua)) os = "Windows 7";
+  else if (/Mac OS X/.test(ua)) { const v = ua.match(/Mac OS X ([0-9_]+)/); os = "macOS " + (v ? v[1].replace(/_/g,".") : ""); }
+  else if (/Android ([0-9.]+)/.test(ua)) { const v = ua.match(/Android ([0-9.]+)/); os = "Android " + (v ? v[1] : ""); }
+  else if (/iPhone OS ([0-9_]+)/.test(ua)) { const v = ua.match(/iPhone OS ([0-9_]+)/); os = "iOS " + (v ? v[1].replace(/_/g,".") : ""); }
+  else if (/iPad/.test(ua)) os = "iPadOS";
+  else if (/Linux/.test(ua)) os = "Linux";
+
+  let browser = "غير معروف";
+  if (/Edg\//.test(ua)) { const v = ua.match(/Edg\/([0-9.]+)/); browser = "Edge " + (v ? v[1] : ""); }
+  else if (/OPR\//.test(ua)) { const v = ua.match(/OPR\/([0-9.]+)/); browser = "Opera " + (v ? v[1] : ""); }
+  else if (/Chrome\//.test(ua)) { const v = ua.match(/Chrome\/([0-9.]+)/); browser = "Chrome " + (v ? v[1] : ""); }
+  else if (/Firefox\//.test(ua)) { const v = ua.match(/Firefox\/([0-9.]+)/); browser = "Firefox " + (v ? v[1] : ""); }
+  else if (/Safari\//.test(ua)) browser = "Safari";
+
+  const isMobile = /Mobi|Android|iPhone|iPad/i.test(ua);
+  const deviceType = isMobile ? "موبايل" : "كمبيوتر";
+  const screen_res = screen.width + "x" + screen.height;
+  const window_res = window.innerWidth + "x" + window.innerHeight;
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const language = navigator.language || (navigator.languages && navigator.languages[0]) || "غير معروف";
+  const referrer = document.referrer || "مباشر";
+  const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  const connType = conn ? (conn.effectiveType || conn.type || "غير معروف") : "غير معروف";
+
+  return { ip, country, city, region, isp, lat, lon, os, browser, deviceType, screen_res, window_res, timezone, language, referrer, connType };
 }
 
 async function addLog(event, details) {
