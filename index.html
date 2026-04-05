@@ -880,7 +880,7 @@ function renderDashboard() {
         <td style="color:var(--text2);font-size:13px">${r.chapter}</td>
         <td>
   ${r.lessonName}
-  ${r.completed ? '<span style="color:#10b981;font-size:12px;"> ✅ تم الشرح</span>' : ''}
+  ${r.completed ? '<span style="color:#10b981;font-size:12px;"> ✔ تم الشرح</span>' : ''}
 </td>
         <td>
   <span class="badge badge-date">
@@ -894,7 +894,7 @@ function renderDashboard() {
         <td style="color:var(--text3);font-size:12px">${r.registeredAt}</td>
         <td>
   <button class="btn-secondary" onclick="markCompleted('${r.docId}','${r.name.replace(/'/g,"\\'")}')">
-    ✅ تم الشرح
+    ✔ تم الشرح
   </button>
   <button class="btn-danger" onclick="deleteReg('${r.docId}','${r.name.replace(/'/g,"\\'")}')">
     حذف
