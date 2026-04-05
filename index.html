@@ -692,13 +692,14 @@ function renderLessons() {
       </div>
       <div class="lessons-grid">`;
     lessons.forEach(l => {
-      const taken = takenIds.includes(l.id);
+      const reg = regsCache.find(r => r.lessonId === l.id);
+const taken = !!reg;
       const sel = selectedLesson === l.id;
       html += `
         <div class="lesson-card ch-${l.chapterNum} ${taken?"taken":""} ${sel?"selected":""}"
              id="lcard-${l.id}"
              onclick="${taken?"":"selectLesson('"+l.id+"')"}">
-          ${taken ? '<span class="taken-badge">محجوز</span>' : ""}
+          ${taken ? `<span class="taken-badge">${reg.name}</span>` : ""}
           <div class="lesson-chapter">${l.chapter}</div>
           <div class="lesson-name">${l.name}</div>
         </div>`;
