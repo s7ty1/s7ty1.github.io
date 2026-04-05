@@ -154,6 +154,13 @@
   .ch-5 .lesson-chapter { color: #fb923c; }
   .ch-6 .lesson-chapter { color: #f472b6; }
   .ch-7 .lesson-chapter { color: #fbbf24; }
+  .completed-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: rgba(16,185,129,0.12); color: #34d399;
+    border: 1px solid rgba(16,185,129,0.3); border-radius: 6px;
+    padding: 2px 8px; font-size: 11px; font-weight: 700; margin-top: 6px;
+  }
+  .lesson-card.completed { border-color: rgba(16,185,129,0.25); }
 
   /* ── Selected indicator ── */
   .selected-indicator {
@@ -682,16 +689,18 @@ function renderLessons() {
       <div class="lessons-grid">`;
 
     lessons.forEach(l => {
-      const reg   = regsCache.find(r => r.lessonId === l.id);
-      const taken = !!reg;
-      const sel   = selectedLesson === l.id;
+      const reg       = regsCache.find(r => r.lessonId === l.id);
+      const taken     = !!reg;
+      const completed = reg?.completed === true;
+      const sel       = selectedLesson === l.id;
       html += `
-        <div class="lesson-card ch-${l.chapterNum} ${taken ? "taken" : ""} ${sel ? "selected" : ""}"
+        <div class="lesson-card ch-${l.chapterNum} ${taken ? "taken" : ""} ${completed ? "completed" : ""} ${sel ? "selected" : ""}"
              id="lcard-${l.id}"
              ${taken ? "" : `onclick="selectLesson('${l.id}')"`}>
           ${taken ? `<span class="taken-badge">${reg.name}</span>` : ""}
           <div class="lesson-chapter">${l.chapter}</div>
           <div class="lesson-name">${l.name}</div>
+          ${completed ? `<div class="completed-badge">✔ تم الشرح</div>` : ""}
         </div>`;
     });
     html += `</div>`;
