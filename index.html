@@ -395,7 +395,9 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getAuth, signInWithEmailAndPassword }
+
 from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import {
   getFirestore, collection, doc, addDoc, getDocs, deleteDoc,
@@ -887,7 +889,14 @@ function renderDashboard() {
   </span>
 </td>
         <td style="color:var(--text3);font-size:12px">${r.registeredAt}</td>
-        <td><button class="btn-danger" onclick="deleteReg('${r.docId}','${r.name.replace(/'/g,"\\'")}')">حذف</button></td>
+        <td>
+  <button class="btn-secondary" onclick="markCompleted('${r.docId}','${r.name.replace(/'/g,"\\'")}')">
+    ✔ تم الشرح
+  </button>
+  <button class="btn-danger" onclick="deleteReg('${r.docId}','${r.name.replace(/'/g,"\\'")}')">
+    حذف
+  </button>
+</td>
       </tr>`).join("");
   }
 
@@ -950,6 +959,21 @@ window.showAlert = function(el, msg) {
   el.className = "alert alert-error show";
   el.scrollIntoView({ behavior:"smooth", block:"nearest" });
   setTimeout(() => el.classList.remove("show"), 6000);
+}
+window.markCompleted = async function(docId, name) {
+  if (!confirm(`هل تم شرح درس "${name}"؟`)) return;
+
+  try {
+    await updateDoc(doc(db, "registrations", docId), {
+      completed: true
+    });
+
+    await addLog("تم الشرح", `الطالب ${name} أنهى العرض`);
+
+  } catch(e) {
+    alert("❌ حدث خطأ");
+    console.error(e);
+  }
 }
 function showAlert(el, msg) { window.showAlert(el, msg); }
 
