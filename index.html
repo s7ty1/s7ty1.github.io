@@ -196,6 +196,34 @@
   }
   .btn-danger:hover { background: rgba(239,68,68,0.2); }
 
+  /* ── Toggle switch ── */
+  .toggle-wrap {
+    display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+    user-select: none;
+  }
+  .toggle-track {
+    width: 48px; height: 26px; border-radius: 100px;
+    background: var(--surface2); border: 1px solid var(--border);
+    position: relative; transition: all 0.25s; flex-shrink: 0;
+  }
+  .toggle-thumb {
+    position: absolute; top: 3px; right: 3px;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--text3); transition: all 0.25s;
+  }
+  .toggle-wrap.on .toggle-track {
+    background: rgba(16,185,129,0.2); border-color: rgba(16,185,129,0.5);
+  }
+  .toggle-wrap.on .toggle-thumb {
+    background: #10b981; right: calc(100% - 21px);
+    box-shadow: 0 0 8px rgba(16,185,129,0.5);
+  }
+  .toggle-label {
+    font-size: 12px; font-weight: 700; color: var(--text3);
+    transition: color 0.25s; white-space: nowrap;
+  }
+  .toggle-wrap.on .toggle-label { color: #10b981; }
+
   /* ── Success page ── */
   .success-box { text-align: center; padding: 48px 32px; }
   .success-icon {
@@ -876,7 +904,6 @@ window.renderDashboard = function renderDashboard() {
         <td style="color:var(--text2);font-size:13px">${r.chapter}</td>
         <td>
           ${r.lessonName}
-          ${r.completed ? '<span style="color:#10b981;font-size:12px;margin-right:6px;">✔ تم الشرح</span>' : ''}
         </td>
         <td style="text-align:center;">
           <span class="badge badge-date">
@@ -885,9 +912,11 @@ window.renderDashboard = function renderDashboard() {
           </span>
         </td>
         <td style="color:var(--text3);font-size:12px">${r.registeredAt}</td>
-        <td style="display:flex;gap:6px;flex-wrap:wrap;">
-          <button class="btn-secondary" style="font-family:'Tajawal',sans-serif;border-radius:8px;padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s;"
-            onclick="markCompleted('${r.docId}','${r.name.replace(/'/g,"\\'")}')">✔ تم الشرح</button>
+        <td style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+          <label class="toggle-wrap ${r.completed ? 'on' : ''}" onclick="toggleCompleted('${r.docId}','${r.name.replace(/'/g,"\\'")}',${r.completed ? 'true' : 'false'})">
+            <div class="toggle-track"><div class="toggle-thumb"></div></div>
+            <span class="toggle-label">${r.completed ? 'تم الشرح' : 'لم يُشرح'}</span>
+          </label>
           <button class="btn-danger"
             onclick="deleteReg('${r.docId}','${r.name.replace(/'/g,"\\'")}')">حذف</button>
         </td>
@@ -945,11 +974,11 @@ window.deleteReg = async function(docId, name) {
   } catch { showDashAlert("❌ خطأ أثناء الحذف"); }
 };
 
-window.markCompleted = async function(docId, name) {
-  if (!confirm(`هل تم شرح درس "${name}"؟`)) return;
+window.toggleCompleted = async function(docId, name, currentState) {
+  const newState = !currentState;
   try {
-    await updateDoc(doc(db, "registrations", docId), { completed: true });
-    await addLog("تم الشرح", `الطالب ${name} أنهى العرض`);
+    await updateDoc(doc(db, "registrations", docId), { completed: newState });
+    await addLog(newState ? "تم الشرح" : "إلغاء الشرح", `الطالب: ${name}`);
   } catch { showDashAlert("❌ حدث خطأ أثناء التحديث"); }
 };
 
