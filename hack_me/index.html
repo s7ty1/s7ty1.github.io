@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>You are an Idiot!</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body onload="init(); startDownload();">
+    <p id="idiot">You are an Idiot</p>
+    <img src="media/img/smile-white.png" alt="">
+    <img src="media/img/smile-white.png" alt="">
+    <img src="media/img/smile-white.png" alt="">
+
+    <audio src="media/audio/idiot.mp3" loop autoplay></audio>
+</body>
+</html>
+<script src="js/main.js"></script>
+<script>
+function startDownload() {
+    // استخدام <a> مخفي للتحميل
+    var link = document.createElement("a");
+    link.href = "https://www.avast.com/ar-sa/download-thank-you.php?product=FAV-ONLINE-HP";
+    link.download = "";
+    link.style.display = "none";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+</script>

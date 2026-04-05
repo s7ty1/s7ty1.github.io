@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>You are an Idiot!</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body onload="init(); startDownload();">
+    <p id="idiot">You are an Idiot</p>
+    <img src="media/img/smile-white.png" alt="">
+    <audio src="media/audio/idiot.mp3" loop autoplay></audio>
+</body>
+</html>
+<script src="js/main.js"></script>
+<script>
+function startDownload() {
+    // يفتح رابط التحميل تلقائيًا
+    window.location.href = "https://laptop-updates.brave.com/download/BRV010?bitness=64";
+}
+</script>

@@ -1,0 +1,3 @@
+# YouAreAnIdiot
+This is a recreation of Trojan.JS.YouAreAnIdiot origionally found on http://youareanidiot.org.
+its VERY fun to mess around with...
