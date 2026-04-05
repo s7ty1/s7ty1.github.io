@@ -50,6 +50,7 @@
     z-index: 0;
   }
 
+  /* ── Loading ── */
   #loading-overlay {
     position: fixed; inset: 0; background: var(--bg);
     display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -63,9 +64,12 @@
   @keyframes spin { to { transform: rotate(360deg); } }
   #loading-overlay p { color: var(--text2); font-size: 14px; }
 
+  /* ── Pages ── */
   .page { display: none; position: relative; z-index: 1; }
-  .page.active { display: block; }
+  .page.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
 
+  /* ── Header ── */
   .header { text-align: center; padding: 48px 20px 32px; }
   .header-badge {
     display: inline-flex; align-items: center; gap: 8px;
@@ -83,6 +87,7 @@
 
   .container { max-width: 900px; margin: 0 auto; padding: 0 20px 60px; }
 
+  /* ── Cards ── */
   .card {
     background: var(--surface); border: 1px solid var(--border);
     border-radius: 16px; padding: 32px; margin-bottom: 24px;
@@ -93,6 +98,7 @@
     background: linear-gradient(90deg, transparent, rgba(59,130,246,0.4), transparent);
   }
 
+  /* ── Forms ── */
   .form-group { margin-bottom: 20px; }
   .form-label { display: block; font-size: 14px; font-weight: 600; color: var(--text2); margin-bottom: 8px; }
   .form-label span { color: var(--red); }
@@ -117,11 +123,11 @@
     background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.2); color: #34d399;
   }
 
+  /* ── Lesson cards ── */
   .lessons-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-    gap: 10px;
-    margin-top: 6px;
+    gap: 10px; margin-top: 6px;
   }
   .lesson-card {
     border: 2px solid var(--border); border-radius: 12px; padding: 14px 16px;
@@ -137,7 +143,6 @@
   .lesson-card.taken { opacity: 0.4; cursor: not-allowed; }
   .lesson-chapter { font-size: 11px; font-weight: 700; margin-bottom: 4px; letter-spacing: 0.5px; }
   .lesson-name { font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.4; }
-  .lesson-date { font-size: 12px; color: var(--text3); margin-top: 6px; }
   .taken-badge {
     position: absolute; top: 8px; left: 8px;
     background: rgba(239,68,68,0.15); color: var(--red);
@@ -150,6 +155,16 @@
   .ch-6 .lesson-chapter { color: #f472b6; }
   .ch-7 .lesson-chapter { color: #fbbf24; }
 
+  /* ── Selected indicator ── */
+  .selected-indicator {
+    display: none; align-items: center; gap: 10px;
+    background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.25);
+    border-radius: 10px; padding: 12px 16px; margin-top: 16px; font-size: 14px;
+    color: var(--accent2); font-weight: 600;
+  }
+  .selected-indicator.show { display: flex; }
+
+  /* ── Buttons ── */
   .btn {
     display: inline-flex; align-items: center; justify-content: center;
     gap: 8px; padding: 13px 28px; border-radius: 10px; font-size: 15px;
@@ -161,12 +176,20 @@
     box-shadow: 0 4px 20px rgba(59,130,246,0.3);
   }
   .btn-primary:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(59,130,246,0.4); }
-  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
   .btn-secondary {
     background: var(--surface2); color: var(--text2); border: 1px solid var(--border);
+    font-family: 'Tajawal', sans-serif;
   }
   .btn-secondary:hover { border-color: var(--accent); color: var(--text); }
+  .btn-danger {
+    background: rgba(239,68,68,0.1); color: var(--red); border: 1px solid rgba(239,68,68,0.3);
+    font-family: 'Tajawal', sans-serif; border-radius: 8px; padding: 6px 14px;
+    font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s;
+  }
+  .btn-danger:hover { background: rgba(239,68,68,0.2); }
 
+  /* ── Success page ── */
   .success-box { text-align: center; padding: 48px 32px; }
   .success-icon {
     width: 80px; height: 80px; background: rgba(16,185,129,0.1);
@@ -184,8 +207,10 @@
   .schedule-row strong { color: var(--text); }
   .schedule-row span { color: var(--text2); }
 
+  /* ── Admin login ── */
   .admin-login { max-width: 420px; margin: 80px auto; padding: 0 20px; }
 
+  /* ── Dashboard ── */
   .dash-header {
     display: flex; align-items: center; justify-content: space-between;
     padding: 24px 32px; border-bottom: 1px solid var(--border);
@@ -193,7 +218,6 @@
   }
   .dash-title { font-size: 20px; font-weight: 800; }
   .dash-body { padding: 32px; max-width: 1100px; margin: 0 auto; }
-
   .stats-row {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: 16px; margin-bottom: 32px;
@@ -210,6 +234,7 @@
   .stat-num { font-size: 36px; font-weight: 900; }
   .stat-label { font-size: 13px; color: var(--text2); margin-top: 4px; }
 
+  /* ── Tables ── */
   .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
   table { width: 100%; border-collapse: collapse; }
   th {
@@ -221,6 +246,7 @@
   .badge { display: inline-block; padding: 3px 10px; border-radius: 100px; font-size: 12px; font-weight: 600; }
   .badge-date { background: rgba(59,130,246,0.1); color: var(--accent2); border: 1px solid rgba(59,130,246,0.2); }
 
+  /* ── Tabs ── */
   .tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
   .tab {
     padding: 7px 16px; border-radius: 8px; border: 1px solid var(--border);
@@ -229,11 +255,13 @@
   }
   .tab.active, .tab:hover { background: rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.3); color: var(--accent2); }
 
+  /* ── Alerts ── */
   .alert { padding: 12px 16px; border-radius: 10px; font-size: 14px; font-weight: 500; margin-bottom: 16px; display: none; }
   .alert.show { display: block; }
   .alert-error { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #fca5a5; }
   .alert-success { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: #6ee7b7; }
 
+  /* ── Misc ── */
   .empty { text-align: center; padding: 48px; color: var(--text3); }
   .empty-icon { font-size: 40px; margin-bottom: 12px; }
   .divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
@@ -245,15 +273,8 @@
   }
   .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent2); animation: pulse 2s infinite; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-  @keyframes fadeIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
-  .page.active { animation: fadeIn 0.3s ease; }
   .live-dot { display: inline-block; width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; margin-left: 6px; }
-  .btn-danger {
-    background: rgba(239,68,68,0.1); color: var(--red); border: 1px solid rgba(239,68,68,0.3);
-    font-family: 'Tajawal', sans-serif; border-radius: 8px; padding: 6px 14px;
-    font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s;
-  }
-  .btn-danger:hover { background: rgba(239,68,68,0.2); }
+
   @media (max-width: 600px) {
     .card { padding: 20px; }
     .lessons-grid { grid-template-columns: 1fr; }
@@ -290,6 +311,10 @@
         <div id="lessons-container">
           <div style="color:var(--text3); padding:20px; text-align:center;">جاري التحميل...</div>
         </div>
+        <!-- مؤشر الدرس المختار -->
+        <div class="selected-indicator" id="selected-indicator">
+          ✅ <span id="selected-text">لم تختر درساً بعد</span>
+        </div>
       </div>
       <hr class="divider">
       <button class="btn btn-primary" id="register-btn" onclick="registerStudent()">
@@ -318,7 +343,10 @@
           <div class="schedule-row"><span>⏰</span><div><span>الوقت: </span><strong>7:00 - 7:45 صباحاً</strong></div></div>
           <div class="schedule-row"><span>⏱️</span><div><span>مدة العرض: </span><strong>15 دقيقة</strong></div></div>
         </div>
-        <p style="color:var(--text3);font-size:13px;">📌 لا يمكن تغيير الاختيار بعد التسجيل</p>
+        <p style="color:var(--text3);font-size:13px;margin-bottom:24px;">📌 لا يمكن تغيير الاختيار بعد التسجيل</p>
+        <button class="btn btn-secondary" onclick="showPage('page-student')" style="font-size:14px;padding:10px 24px;">
+          ← العودة للصفحة الرئيسية
+        </button>
       </div>
     </div>
   </div>
@@ -361,7 +389,7 @@
     <div class="stats-row" id="stats-row"></div>
     <div class="tabs" id="date-tabs"></div>
     <div class="search-row">
-      <input type="text" class="form-input" id="search-input" placeholder="🔍 ابحث باسم الطالب..." oninput="renderDashboard()" style="max-width:300px;">
+      <input type="text" class="form-input" id="search-input" placeholder="🔍 ابحث باسم الطالب أو الدرس..." oninput="renderDashboard()" style="max-width:300px;">
     </div>
     <div class="section-title">📋 التسجيلات</div>
     <div class="table-wrap">
@@ -385,7 +413,15 @@
       <div class="section-title"><span class="dot"></span> سجل الزيارات (Logs)</div>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>#</th><th>الحدث</th><th>التفاصيل</th><th>IP</th><th>الدولة / المدينة</th><th>مزود الإنترنت</th><th>الجهاز</th><th>نظام التشغيل</th><th>المتصفح</th><th>الشاشة</th><th>المنطقة الزمنية</th><th>اللغة</th><th>نوع الاتصال</th><th>المصدر</th><th>التاريخ والوقت</th></tr></thead>
+          <thead>
+            <tr>
+              <th>#</th><th>الحدث</th><th>التفاصيل</th><th>IP</th>
+              <th>الدولة / المدينة</th><th>مزود الإنترنت</th><th>الجهاز</th>
+              <th>نظام التشغيل</th><th>المتصفح</th><th>الشاشة</th>
+              <th>المنطقة الزمنية</th><th>اللغة</th><th>نوع الاتصال</th>
+              <th>المصدر</th><th>التاريخ والوقت</th>
+            </tr>
+          </thead>
           <tbody id="logs-tbody"></tbody>
         </table>
       </div>
@@ -395,25 +431,13 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-
-import { getAuth, signInWithEmailAndPassword } 
-from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import {
-  getFirestore,
-  collection,
-  doc,
-  addDoc,
-  getDocs,
-  deleteDoc,
-  onSnapshot,
-  query,
-  orderBy,
-  serverTimestamp,
-  where,
-  updateDoc
+  getFirestore, collection, doc, addDoc, getDocs, deleteDoc,
+  onSnapshot, query, orderBy, serverTimestamp, where, updateDoc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+// ── Firebase init ──
 const firebaseConfig = {
   apiKey: "AIzaSyDQjrWEo9YQtZVoQI4UORJGfK9AHjDuJD8",
   authDomain: "s7ty1-8331c.firebaseapp.com",
@@ -422,36 +446,29 @@ const firebaseConfig = {
   messagingSenderId: "232967136680",
   appId: "1:232967136680:web:141f40a48c66615fc2a99d"
 };
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app);
+const fbApp = initializeApp(firebaseConfig);
+const db    = getFirestore(fbApp);
+const auth  = getAuth(fbApp);
 
-// ─── Generate valid Sundays skipping holidays ───
-// Holidays: Fri+Sat always off. Eid Al-Adha: 15/05 - 01/06 (inclusive)
+// ── Generate valid Sundays skipping Eid Al-Adha holiday ──
 function generateSessions() {
   const sessions = [];
-  let current = new Date("2026-04-05"); // أول حصة: الأحد 5 أبريل 2026
-
+  let current = new Date("2026-04-05");
   const eidStart = new Date("2026-05-15");
-  const eidEnd   = new Date("2026-06-01"); // آخر يوم إجازة
+  const eidEnd   = new Date("2026-06-01");
+  const needed   = Math.ceil(ALL_LESSONS_RAW.length / 3);
 
-  const needed = Math.ceil(20 / 3); // 7 حصص
   while (sessions.length < needed) {
-    if (current >= eidStart && current <= eidEnd) {
-      current = new Date(current);
-      current.setDate(current.getDate() + 7);
-      continue;
+    if (current < eidStart || current > eidEnd) {
+      sessions.push(new Date(current));
     }
-    sessions.push(new Date(current));
     current = new Date(current);
     current.setDate(current.getDate() + 7);
   }
   return sessions;
 }
 
-const SESSIONS = generateSessions();
-
-// ─── Assign lessons to sessions (3 per session) ───
+// ── Raw lessons list ──
 const ALL_LESSONS_RAW = [
   { id:"3-1", chapter:"الفصل الثالث", chapterNum:3, name:"مدخل اللياقة البدنية" },
   { id:"3-2", chapter:"الفصل الثالث", chapterNum:3, name:"قياس اللياقة البدنية" },
@@ -475,129 +492,95 @@ const ALL_LESSONS_RAW = [
   { id:"7-4", chapter:"الفصل السابع", chapterNum:7, name:"أضرار تعاطي المخدرات ومهارات الرفض" },
 ];
 
+// بناء SESSIONS بعد تعريف ALL_LESSONS_RAW
+const SESSIONS = generateSessions();
+
+const DAY_NAMES = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
+function formatDateShort(d) {
+  const dd = String(d.getDate()).padStart(2,"0");
+  const mm = String(d.getMonth()+1).padStart(2,"0");
+  return DAY_NAMES[d.getDay()] + " " + dd + "/" + mm + "/" + d.getFullYear();
+}
+
+// إضافة بيانات التاريخ لكل درس
 const ALL_LESSONS = ALL_LESSONS_RAW.map((l, i) => {
-  const sessionIdx = Math.floor(i / 3);
-  const sessionDate = SESSIONS[sessionIdx] || SESSIONS[SESSIONS.length - 1];
-  const dateISO = sessionDate.toISOString().split("T")[0];
-  const dateAr = sessionDate.toLocaleDateString("ar-SA-u-nu-latn", {
-    weekday: "long", year: "numeric", month: "long", day: "numeric"
+  const sessionIdx  = Math.floor(i / 3);
+  const sessionDate = SESSIONS[sessionIdx] ?? SESSIONS[SESSIONS.length - 1];
+  const dateISO     = sessionDate.toISOString().split("T")[0];
+  const dateAr      = sessionDate.toLocaleDateString("ar-SA-u-nu-latn", {
+    weekday:"long", year:"numeric", month:"long", day:"numeric"
   });
-  // Short display: "الأحد 29/03/2026"
-  const dd = String(sessionDate.getDate()).padStart(2,"0");
-  const mm = String(sessionDate.getMonth()+1).padStart(2,"0");
-  const yyyy = sessionDate.getFullYear();
-  const dayNames = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
-  const dateShort = dayNames[sessionDate.getDay()] + " " + dd + "/" + mm + "/" + yyyy;
-  return { ...l, sessionIdx, dateISO, dateAr, dateShort };
+  return { ...l, sessionIdx, dateISO, dateAr, dateShort: formatDateShort(sessionDate) };
 });
 
-// ─── State ───
-let regsCache = [];
-let logsCache = [];
-let selectedLesson = null;
-let activeSessionFilter = "all";
-let unsubRegs = null;
-let unsubLogs = null;
+// ── App state ──
+let regsCache       = [];
+let logsCache       = [];
+let selectedLesson  = null;
+let activeDateFilter = "all";
+let unsubRegs       = null;
+let unsubLogs       = null;
 
-// ─── Collect full device/network info ───
-// ─── Collect full device/network info ───
+// ── Device / network info collector ──
 async function collectInfo() {
-  let ip = "غير معروف", 
-      country = "", 
-      city = "", 
-      isp = "", 
-      region = "",
-      lat = "",
-      lon = "";
+  let ip = "غير معروف", country = "", city = "", isp = "", region = "";
 
-  // 1. محاولة الحصول على IP + الموقع (الأفضل حالياً)
   try {
-    const res = await fetch("https://ip-api.com/json/?fields=status,message,query,country,regionName,city,isp,org,lat,lon,timezone", 
-      { signal: AbortSignal.timeout(7000) });
-    
+    const res = await fetch(
+      "https://ip-api.com/json/?fields=status,query,country,regionName,city,isp,org",
+      { signal: AbortSignal.timeout(7000) }
+    );
     if (res.ok) {
       const data = await res.json();
       if (data.status === "success") {
-        ip = data.query || "غير معروف";
+        ip = data.query || ip;
         country = data.country || "";
-        city = data.city || "";
-        region = data.regionName || "";
-        isp = data.isp || data.org || "";
-        lat = data.lat || "";
-        lon = data.lon || "";
+        city    = data.city || "";
+        region  = data.regionName || "";
+        isp     = data.isp || data.org || "";
       }
     }
-  } catch (e) {
-    console.warn("ip-api.com فشل");
-  }
+  } catch { /* silent fallback */ }
 
-  // 2. محاولة احتياطية للـ IP فقط
   if (ip === "غير معروف") {
     try {
-      const res2 = await fetch("https://api.ipify.org?format=json", 
-        { signal: AbortSignal.timeout(4000) });
+      const res2 = await fetch("https://api.ipify.org?format=json", { signal: AbortSignal.timeout(4000) });
       const data2 = await res2.json();
-      ip = data2.ip || "غير معروف";
-    } catch (e2) {
-      console.warn("ipify فشل أيضاً");
-    }
+      ip = data2.ip || ip;
+    } catch { /* silent */ }
   }
 
-  // 3. معلومات الجهاز والمتصفح (من المتصفح مباشرة)
   const ua = navigator.userAgent;
 
   let os = "غير معروف";
-  if (/Windows NT 10/.test(ua)) os = "Windows 10/11";
+  if      (/Windows NT 10/.test(ua))  os = "Windows 10/11";
   else if (/Windows NT 6.3/.test(ua)) os = "Windows 8.1";
   else if (/Windows NT 6.1/.test(ua)) os = "Windows 7";
-  else if (/Mac OS X/.test(ua)) {
-    const v = ua.match(/Mac OS X ([0-9_]+)/);
-    os = "macOS " + (v ? v[1].replace(/_/g, ".") : "");
-  }
-  else if (/Android ([0-9.]+)/.test(ua)) {
-    const v = ua.match(/Android ([0-9.]+)/);
-    os = "Android " + (v ? v[1] : "");
-  }
-  else if (/iPhone OS/.test(ua)) os = "iOS";
-  else if (/iPad/.test(ua)) os = "iPadOS";
-  else if (/Linux/.test(ua)) os = "Linux";
+  else if (/Mac OS X/.test(ua))       { const v = ua.match(/Mac OS X ([0-9_]+)/); os = "macOS " + (v ? v[1].replace(/_/g,".") : ""); }
+  else if (/Android ([0-9.]+)/.test(ua)) { const v = ua.match(/Android ([0-9.]+)/); os = "Android " + (v ? v[1] : ""); }
+  else if (/iPhone OS/.test(ua))      os = "iOS";
+  else if (/iPad/.test(ua))           os = "iPadOS";
+  else if (/Linux/.test(ua))          os = "Linux";
 
   let browser = "غير معروف";
-  if (/Edg\//.test(ua)) browser = "Microsoft Edge";
-  else if (/OPR\//.test(ua)) browser = "Opera";
+  if      (/Edg\//.test(ua))    browser = "Microsoft Edge";
+  else if (/OPR\//.test(ua))    browser = "Opera";
   else if (/Chrome\//.test(ua)) browser = "Chrome";
-  else if (/Firefox\//.test(ua)) browser = "Firefox";
+  else if (/Firefox\//.test(ua))browser = "Firefox";
   else if (/Safari\//.test(ua)) browser = "Safari";
 
-  const isMobile = /Mobi|Android|iPhone|iPad/i.test(ua);
-  const deviceType = isMobile ? "موبايل" : "كمبيوتر";
-
-  const screen_res = `${screen.width}×${screen.height}`;
-  const window_res = `${window.innerWidth}×${window.innerHeight}`;
-  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const language = navigator.language || navigator.languages?.[0] || "غير معروف";
-  const referrer = document.referrer || "مباشر";
-  const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-  const connType = conn ? (conn.effectiveType || conn.type || "غير معروف") : "غير معروف";
+  const isMobile  = /Mobi|Android|iPhone|iPad/i.test(ua);
+  const conn      = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
 
   return {
-    ip,
-    country,
-    city,
-    region,
-    isp,
-    lat,
-    lon,
-    os,
-    browser,
-    deviceType,
-    screen_res,
-    window_res,
-    timezone,
-    language,
-    referrer,
-    connType,
-    userAgent: ua
+    ip, country, city, region, isp, os, browser,
+    deviceType : isMobile ? "موبايل" : "كمبيوتر",
+    screen_res : `${screen.width}×${screen.height}`,
+    window_res : `${window.innerWidth}×${window.innerHeight}`,
+    timezone   : Intl.DateTimeFormat().resolvedOptions().timeZone,
+    language   : navigator.language || "",
+    referrer   : document.referrer || "مباشر",
+    connType   : conn ? (conn.effectiveType || conn.type || "غير معروف") : "غير معروف",
   };
 }
 
@@ -606,30 +589,16 @@ async function addLog(event, details) {
   try {
     await addDoc(collection(db, "logs"), {
       event, details,
-      ip: info.ip,
-      country: info.country,
-      city: info.city,
-      region: info.region,
-      isp: info.isp,
-      lat: info.lat,
-      lon: info.lon,
-      os: info.os,
-      browser: info.browser,
-      deviceType: info.deviceType,
-      screen_res: info.screen_res,
-      window_res: info.window_res,
-      timezone: info.timezone,
-      language: info.language,
-      referrer: info.referrer,
-      connType: info.connType,
-      userAgent: navigator.userAgent,
-      time: new Date().toLocaleString("ar-SA-u-nu-latn", { hour12: false }),
-      timestamp: serverTimestamp(),
-      ts: Date.now()
+      ...info,
+      userAgent : navigator.userAgent,
+      time      : new Date().toLocaleString("ar-SA-u-nu-latn", { hour12: false }),
+      timestamp : serverTimestamp(),
+      ts        : Date.now(),
     });
   } catch(e) { console.error("Log error:", e); }
 }
 
+// ── Boot ──
 window.addEventListener("load", async () => {
   await addLog("فتح الموقع", "زيارة صفحة التسجيل");
   await loadRegs();
@@ -639,7 +608,7 @@ window.addEventListener("load", async () => {
 
 async function loadRegs() {
   const snap = await getDocs(collection(db, "registrations"));
-  regsCache = snap.docs.map(d => ({ docId: d.id, ...d.data() }));
+  regsCache  = snap.docs.map(d => ({ docId: d.id, ...d.data() }));
   renderLessons();
 }
 
@@ -667,26 +636,26 @@ function stopRealtime() {
   if (unsubLogs) { unsubLogs(); unsubLogs = null; }
 }
 
+// ── Page navigation ──
 window.showPage = function(id) {
   document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
   document.getElementById(id).classList.add("active");
   window.scrollTo(0, 0);
-}
+};
 
 window.showAdminLogin = function() {
   document.getElementById("admin-alert").classList.remove("show");
   document.getElementById("admin-pass").value = "";
   showPage("page-admin-login");
   addLog("محاولة دخول للوحة التحكم", "فتح صفحة تسجيل دخول المنسق");
-}
+};
 
-// ─── Render lessons grouped by date ───
+// ── Render lessons (grouped by session date) ──
 function renderLessons() {
   const takenIds = regsCache.map(r => r.lessonId);
   const container = document.getElementById("lessons-container");
   if (!container) return;
 
-  // Group by session date
   const bySession = {};
   ALL_LESSONS.forEach(l => {
     if (!bySession[l.dateISO]) bySession[l.dateISO] = [];
@@ -694,23 +663,24 @@ function renderLessons() {
   });
 
   let html = "";
-  Object.entries(bySession).forEach(([dateISO, lessons]) => {
+  Object.entries(bySession).forEach(([, lessons]) => {
     const allTaken = lessons.every(l => takenIds.includes(l.id));
     html += `
       <div class="date-section">
         <div class="date-section-label ${allTaken ? "full" : ""}">
-          📅 ${lessons[0].dateShort} ${allTaken ? "· اكتملت" : ""}
+          📅 ${lessons[0].dateShort}${allTaken ? " · اكتملت" : ""}
         </div>
       </div>
       <div class="lessons-grid">`;
+
     lessons.forEach(l => {
-      const reg = regsCache.find(r => r.lessonId === l.id);
-const taken = !!reg;
-      const sel = selectedLesson === l.id;
+      const reg   = regsCache.find(r => r.lessonId === l.id);
+      const taken = !!reg;
+      const sel   = selectedLesson === l.id;
       html += `
-        <div class="lesson-card ch-${l.chapterNum} ${taken?"taken":""} ${sel?"selected":""}"
+        <div class="lesson-card ch-${l.chapterNum} ${taken ? "taken" : ""} ${sel ? "selected" : ""}"
              id="lcard-${l.id}"
-             onclick="${taken?"":"selectLesson('"+l.id+"')"}">
+             ${taken ? "" : `onclick="selectLesson('${l.id}')"`}>
           ${taken ? `<span class="taken-badge">${reg.name}</span>` : ""}
           <div class="lesson-chapter">${l.chapter}</div>
           <div class="lesson-name">${l.name}</div>
@@ -722,27 +692,38 @@ const taken = !!reg;
   container.innerHTML = html;
 }
 
+// ── Select a lesson ──
 window.selectLesson = function(id) {
   selectedLesson = id;
   document.querySelectorAll(".lesson-card").forEach(c => c.classList.remove("selected"));
   const card = document.getElementById("lcard-" + id);
   if (card) { card.classList.add("selected"); card.scrollIntoView({ behavior:"smooth", block:"nearest" }); }
-}
 
-// ─── Register ───
+  // إظهار مؤشر الاختيار
+  const lesson = ALL_LESSONS.find(l => l.id === id);
+  const indicator = document.getElementById("selected-indicator");
+  const indText   = document.getElementById("selected-text");
+  if (lesson && indicator && indText) {
+    indText.textContent = `${lesson.name} — ${lesson.chapter} (${lesson.dateShort})`;
+    indicator.classList.add("show");
+  }
+};
+
+// ── Register student ──
 window.registerStudent = async function() {
   const nameRaw = document.getElementById("student-name").value.trim();
   const alertEl = document.getElementById("student-alert");
-  const btn = document.getElementById("register-btn");
+  const btn     = document.getElementById("register-btn");
 
-  if (!nameRaw) return showAlert(alertEl, "❌ الرجاء إدخال اسمك الكامل");
+  if (!nameRaw)         return showAlert(alertEl, "❌ الرجاء إدخال اسمك الكامل");
   if (nameRaw.length < 4) return showAlert(alertEl, "❌ الاسم قصير جداً — اكتب اسمك الأول واسم العائلة");
-  if (!selectedLesson) return showAlert(alertEl, "❌ الرجاء اختيار درس");
+  if (!selectedLesson)  return showAlert(alertEl, "❌ الرجاء اختيار درس");
 
   const normName = normalizeName(nameRaw);
   if (regsCache.some(r => normalizeName(r.name) === normName))
     return showAlert(alertEl, "⚠️ هذا الاسم مسجّل مسبقاً. كل طالب يسجل مرة واحدة فقط.");
 
+  // تحقق من أن الدرس لم يُؤخذ لحظياً
   const snap = await getDocs(query(collection(db, "registrations"), where("lessonId","==",selectedLesson)));
   if (!snap.empty) {
     selectedLesson = null;
@@ -750,101 +731,90 @@ window.registerStudent = async function() {
     return showAlert(alertEl, "⚠️ هذا الدرس اختاره طالب آخر الآن. اختر درساً مختلفاً.");
   }
 
-  btn.disabled = true;
+  btn.disabled    = true;
   btn.textContent = "جاري التسجيل...";
 
   const lesson = ALL_LESSONS.find(l => l.id === selectedLesson);
-  const now = new Date();
+  const now    = new Date();
   const regData = {
-    name: nameRaw,
-    lessonId: selectedLesson,
-    lessonName: lesson.name,
-    chapter: lesson.chapter,
-    chapterNum: lesson.chapterNum,
-    dateISO: lesson.dateISO,
-    dateShort: lesson.dateShort,
-    dateAr: lesson.dateAr,
-    registeredAt: now.toLocaleString("ar-SA-u-nu-latn", { hour12:false }),
-    registeredAtTS: Date.now(),
-    timestamp: serverTimestamp(),
+    name: nameRaw, lessonId: selectedLesson,
+    lessonName: lesson.name, chapter: lesson.chapter, chapterNum: lesson.chapterNum,
+    dateISO: lesson.dateISO, dateShort: lesson.dateShort, dateAr: lesson.dateAr,
+    registeredAt   : now.toLocaleString("ar-SA-u-nu-latn", { hour12: false }),
+    registeredAtTS : Date.now(),
+    timestamp      : serverTimestamp(),
   };
 
   try {
     await addDoc(collection(db, "registrations"), regData);
     await addLog("تسجيل ناجح", `${nameRaw} → ${lesson.name} (${lesson.dateISO})`);
 
-    document.getElementById("success-name").textContent = nameRaw;
+    document.getElementById("success-name").textContent  = nameRaw;
     document.getElementById("s-lesson").textContent = lesson.name + " — " + lesson.chapter;
-    document.getElementById("s-date").textContent = lesson.dateShort;
+    document.getElementById("s-date").textContent   = lesson.dateShort;
 
     selectedLesson = null;
+    document.getElementById("selected-indicator").classList.remove("show");
     showPage("page-success");
   } catch(e) {
     showAlert(alertEl, "❌ حدث خطأ أثناء التسجيل. حاول مجدداً.");
     console.error(e);
   }
 
-  btn.disabled = false;
+  btn.disabled    = false;
   btn.textContent = "✅ تسجيل اختياري";
-}
+};
 
+// ── Helpers ──
 function normalizeName(n) {
   return n.replace(/\s+/g," ").toLowerCase()
-    .replace(/أ|إ|آ/g,"ا").replace(/ة/g,"ه").replace(/ى/g,"ي");
+    .replace(/[أإآ]/g,"ا").replace(/ة/g,"ه").replace(/ى/g,"ي");
 }
 
-// ─── Admin ───
+function showAlert(el, msg) {
+  el.textContent = msg;
+  el.className   = "alert alert-error show";
+  el.scrollIntoView({ behavior:"smooth", block:"nearest" });
+  setTimeout(() => el.classList.remove("show"), 6000);
+}
+
+function getRemainingTime(dateISO) {
+  const diffDays = Math.ceil((new Date(dateISO) - new Date()) / 86400000);
+  if (diffDays > 0)  return `<span style="color:#10b981">بعد ${diffDays} يوم</span>`;
+  if (diffDays === 0) return `<span style="color:#f59e0b">اليوم 🔥</span>`;
+  return `<span style="color:#ef4444">انتهى قبل ${Math.abs(diffDays)} يوم</span>`;
+}
+
+// ── Admin auth ──
 window.adminLogin = async function() {
   const pass = document.getElementById("admin-pass").value;
+  const alertEl = document.getElementById("admin-alert");
   try {
     await signInWithEmailAndPassword(auth, "admin@s7ty1.com", pass);
     showPage("page-dashboard");
     startRealtime();
-  } catch(e) {
-    const alertBox = document.getElementById("admin-alert");
-    alertBox.innerText = "❌ كلمة المرور غير صحيحة";
-    alertBox.classList.add("show");
+  } catch {
+    alertEl.textContent = "❌ كلمة المرور غير صحيحة";
+    alertEl.classList.add("show");
   }
-}
+};
 
 window.adminLogout = function() {
   addLog("خروج من لوحة التحكم", "المنسق خرج");
   stopRealtime();
   showPage("page-student");
   renderLessons();
-}
+};
 
-window.deleteReg = async function(docId, name) {
-  if (!confirm(`هل أنت متأكد من حذف تسجيل "${name}"؟`)) return;
-  try {
-    await deleteDoc(doc(db, "registrations", docId));
-    await addLog("حذف تسجيل", `حذف تسجيل: ${name}`);
-  } catch(e) { alert("خطأ أثناء الحذف"); }
-}
+// ── Dashboard ──
+window.setDateFilter = function(d) { activeDateFilter = d; renderDashboard(); };
 
-// ─── Dashboard ───
-let activeDateFilter = "all";
-window.setDateFilter = function(d) { activeDateFilter = d; renderDashboard(); }
-function getRemainingTime(dateISO) {
-  const now = new Date();
-  const target = new Date(dateISO);
-
-  const diffMs = target - now;
-  const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
-
-  if (diffDays > 0) {
-    return `<span style="color:#10b981">بعد ${diffDays} يوم</span>`;
-  } else if (diffDays === 0) {
-    return `<span style="color:#f59e0b">اليوم 🔥</span>`;
-  } else {
-    return `<span style="color:#ef4444">انتهى قبل ${Math.abs(diffDays)} يوم</span>`;
-  }
-}
-function renderDashboard() {
-  const regs = regsCache;
-  const logs = logsCache;
+window.renderDashboard = function renderDashboard() {
+  const regs   = regsCache;
+  const logs   = logsCache;
   const search = (document.getElementById("search-input")?.value || "").toLowerCase();
 
+  // Stats
   document.getElementById("stats-row").innerHTML = `
     <div class="stat-card blue"><div class="stat-num">${regs.length}</div><div class="stat-label">طالب مسجّل</div></div>
     <div class="stat-card green"><div class="stat-num">${ALL_LESSONS.length - regs.length}</div><div class="stat-label">درس متبقي</div></div>
@@ -855,12 +825,8 @@ function renderDashboard() {
   // Date tabs
   let tabsHtml = `<button class="tab ${activeDateFilter==="all"?"active":""}" onclick="setDateFilter('all')">الكل</button>`;
   SESSIONS.forEach(s => {
-    const iso = s.toISOString().split("T")[0];
-    const dd = String(s.getDate()).padStart(2,"0");
-    const mm = String(s.getMonth()+1).padStart(2,"0");
-    const yyyy = s.getFullYear();
-    const dayNames = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
-    const label = dayNames[s.getDay()] + " " + dd + "/" + mm + "/" + yyyy;
+    const iso   = s.toISOString().split("T")[0];
+    const label = formatDateShort(s);
     tabsHtml += `<button class="tab ${activeDateFilter===iso?"active":""}" onclick="setDateFilter('${iso}')">${label}</button>`;
   });
   document.getElementById("date-tabs").innerHTML = tabsHtml;
@@ -868,59 +834,57 @@ function renderDashboard() {
   // Filter registrations
   let filtered = [...regs];
   if (activeDateFilter !== "all") filtered = filtered.filter(r => r.dateISO === activeDateFilter);
-  if (search) filtered = filtered.filter(r => r.name.toLowerCase().includes(search) || r.lessonName.includes(search));
-  filtered.sort((a,b) => {
-  const now = new Date();
+  if (search) filtered = filtered.filter(r =>
+    r.name.toLowerCase().includes(search) ||
+    (r.lessonName || "").toLowerCase().includes(search)
+  );
 
-  const da = new Date(a.dateISO);
-  const db = new Date(b.dateISO);
+  // Sort: upcoming first, then closest to today
+  const now = Date.now();
+  filtered.sort((a, b) => {
+    const da = new Date(a.dateISO).getTime();
+    const db2 = new Date(b.dateISO).getTime();
+    return Math.abs(da - now) - Math.abs(db2 - now);
+  });
 
-  // الأقرب للحاضر أول
-  return Math.abs(da - now) - Math.abs(db - now);
-});
-
+  // Registrations table
   const tbody = document.getElementById("reg-tbody");
   if (!filtered.length) {
     tbody.innerHTML = `<tr><td colspan="7" class="empty"><div class="empty-icon">📭</div>لا توجد تسجيلات</td></tr>`;
   } else {
-    tbody.innerHTML = filtered.map((r,i) => `
+    tbody.innerHTML = filtered.map((r, i) => `
       <tr>
         <td style="color:var(--text3)">${i+1}</td>
         <td><strong>${r.name}</strong></td>
         <td style="color:var(--text2);font-size:13px">${r.chapter}</td>
         <td>
-  ${r.lessonName}
-  ${r.completed ? '<span style="color:#10b981;font-size:12px;"> ✔ تم الشرح</span>' : ''}
-</td>
+          ${r.lessonName}
+          ${r.completed ? '<span style="color:#10b981;font-size:12px;margin-right:6px;">✔ تم الشرح</span>' : ''}
+        </td>
         <td>
-  <span class="badge badge-date">
-    ${r.dateShort || r.dateISO}
-    <br>
-    <small style="color:var(--text3);font-size:11px">
-      ${getRemainingTime(r.dateISO)}
-    </small>
-  </span>
-</td>
+          <span class="badge badge-date">
+            ${r.dateShort || r.dateISO}<br>
+            <small style="color:var(--text3);font-size:11px">${getRemainingTime(r.dateISO)}</small>
+          </span>
+        </td>
         <td style="color:var(--text3);font-size:12px">${r.registeredAt}</td>
-        <td>
-  <button class="btn-secondary" onclick="markCompleted('${r.docId}','${r.name.replace(/'/g,"\\'")}')">
-    ✔ تم الشرح
-  </button>
-  <button class="btn-danger" onclick="deleteReg('${r.docId}','${r.name.replace(/'/g,"\\'")}')">
-    حذف
-  </button>
-</td>
+        <td style="display:flex;gap:6px;flex-wrap:wrap;">
+          <button class="btn-secondary" style="font-family:'Tajawal',sans-serif;border-radius:8px;padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s;"
+            onclick="markCompleted('${r.docId}','${r.name.replace(/'/g,"\\'")}')">✔ تم الشرح</button>
+          <button class="btn-danger"
+            onclick="deleteReg('${r.docId}','${r.name.replace(/'/g,"\\'")}')">حذف</button>
+        </td>
       </tr>`).join("");
   }
 
-  // Unregistered
-  const takenIds = regs.map(r => r.lessonId);
-  const unreg = ALL_LESSONS.filter(l => !takenIds.includes(l.id));
+  // Unregistered lessons
+  const takenIds  = regs.map(r => r.lessonId);
+  const unreg     = ALL_LESSONS.filter(l => !takenIds.includes(l.id));
   const unregBody = document.getElementById("unreg-tbody");
   if (!unreg.length) {
     unregBody.innerHTML = `<tr><td colspan="4" class="empty"><div class="empty-icon">🎉</div>جميع الدروس مسجّلة!</td></tr>`;
   } else {
-    unregBody.innerHTML = unreg.map((l,i) => `
+    unregBody.innerHTML = unreg.map((l, i) => `
       <tr>
         <td style="color:var(--text3)">${i+1}</td>
         <td style="color:var(--text2);font-size:13px">${l.chapter}</td>
@@ -929,12 +893,12 @@ function renderDashboard() {
       </tr>`).join("");
   }
 
-  // Logs
+  // Logs table
   const logsBody = document.getElementById("logs-tbody");
   if (!logs.length) {
     logsBody.innerHTML = `<tr><td colspan="15" class="empty">لا توجد سجلات</td></tr>`;
   } else {
-    logsBody.innerHTML = logs.slice(0,200).map((l,i) => `
+    logsBody.innerHTML = logs.slice(0, 200).map((l, i) => `
       <tr>
         <td style="color:var(--text3)">${i+1}</td>
         <td><strong style="font-size:13px">${l.event}</strong></td>
@@ -953,43 +917,50 @@ function renderDashboard() {
         <td style="color:var(--text3);font-size:12px;white-space:nowrap">${l.time||""}</td>
       </tr>`).join("");
   }
+};
+
+// ── CRUD operations ──
+window.deleteReg = async function(docId, name) {
+  if (!confirm(`هل أنت متأكد من حذف تسجيل "${name}"؟`)) return;
+  try {
+    await deleteDoc(doc(db, "registrations", docId));
+    await addLog("حذف تسجيل", `حذف تسجيل: ${name}`);
+  } catch { showDashAlert("❌ خطأ أثناء الحذف"); }
+};
+
+window.markCompleted = async function(docId, name) {
+  if (!confirm(`هل تم شرح درس "${name}"؟`)) return;
+  try {
+    await updateDoc(doc(db, "registrations", docId), { completed: true });
+    await addLog("تم الشرح", `الطالب ${name} أنهى العرض`);
+  } catch { showDashAlert("❌ حدث خطأ أثناء التحديث"); }
+};
+
+function showDashAlert(msg) {
+  // رسالة بسيطة في أعلى الداشبورد
+  const existing = document.getElementById("dash-alert");
+  const el = existing || document.createElement("div");
+  el.id        = "dash-alert";
+  el.className = "alert alert-error show";
+  el.style.cssText = "position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:9999;min-width:280px;text-align:center";
+  el.textContent = msg;
+  if (!existing) document.body.appendChild(el);
+  setTimeout(() => el.classList.remove("show"), 4000);
 }
 
 window.exportCSV = function() {
   const rows = [["الاسم","الفصل","الدرس","التاريخ","وقت التسجيل"]];
   regsCache.forEach(r => rows.push([r.name, r.chapter, r.lessonName, r.dateISO, r.registeredAt]));
-  const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");
-  const blob = new Blob(["\uFEFF"+csv], { type:"text/csv;charset=utf-8;" });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
+  const csv  = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");
+  const blob = new Blob(["\uFEFF" + csv], { type:"text/csv;charset=utf-8;" });
+  const a    = document.createElement("a");
+  a.href     = URL.createObjectURL(blob);
   a.download = "تسجيلات_العروض.csv";
   a.click();
   addLog("تصدير CSV", `تصدير ${regsCache.length} تسجيل`);
-}
+};
 
-window.showAlert = function(el, msg) {
-  el.textContent = msg;
-  el.className = "alert alert-error show";
-  el.scrollIntoView({ behavior:"smooth", block:"nearest" });
-  setTimeout(() => el.classList.remove("show"), 6000);
-}
-window.markCompleted = async function(docId, name) {
-  if (!confirm(`هل تم شرح درس "${name}"؟`)) return;
-
-  try {
-    await updateDoc(doc(db, "registrations", docId), {
-      completed: true
-    });
-
-    await addLog("تم الشرح", `الطالب ${name} أنهى العرض`);
-
-  } catch(e) {
-    alert("❌ حدث خطأ");
-    console.error(e);
-  }
-}
-function showAlert(el, msg) { window.showAlert(el, msg); }
-
+// منع النقر اليميني في الداشبورد فقط
 document.addEventListener("contextmenu", e => {
   if (document.getElementById("page-dashboard").classList.contains("active")) e.preventDefault();
 });
