@@ -878,7 +878,10 @@ function renderDashboard() {
         <td style="color:var(--text3)">${i+1}</td>
         <td><strong>${r.name}</strong></td>
         <td style="color:var(--text2);font-size:13px">${r.chapter}</td>
-        <td>${r.lessonName}</td>
+        <td>
+  ${r.lessonName}
+  ${r.completed ? '<span style="color:#10b981;font-size:12px;"> ✔ تم الشرح</span>' : ''}
+</td>
         <td>
   <span class="badge badge-date">
     ${r.dateShort || r.dateISO}
