@@ -643,33 +643,44 @@ async function addLog(event, details) {
 
 // ── Boot ──
 window.addEventListener("load", async () => {
-  await addLog("فتح الموقع", "زيارة صفحة التسجيل");
-  await loadRegs();
-  document.getElementById("loading-overlay").style.display = "none";
-  showPage("page-student");
+  addLog("فتح الموقع", "زيارة صفحة التسجيل"); // لا نحتاج await حتى لا تتأخر الصفحة
+  startRealtime(); // يبدأ الـ realtime فوراً — أول snapshot يخفي الـ loading
 });
-
-async function loadRegs() {
-  const snap = await getDocs(collection(db, "registrations"));
-  regsCache  = snap.docs.map(d => ({ docId: d.id, ...d.data() }));
-  renderLessons();
-}
 
 function startRealtime() {
   if (unsubRegs) return;
+
+  // ── Registrations: يُحدِّث صفحة الطلاب والداشبورد في نفس اللحظة ──
   unsubRegs = onSnapshot(
     query(collection(db, "registrations"), orderBy("registeredAtTS", "asc")),
     snap => {
       regsCache = snap.docs.map(d => ({ docId: d.id, ...d.data() }));
-      renderLessons();
-      if (document.getElementById("page-dashboard").classList.contains("active")) renderDashboard();
+      renderLessons(); // دايماً محدَّث في صفحة الطلاب
+      if (document.getElementById("page-dashboard").classList.contains("active")) {
+        renderDashboard();
+      }
+      // أخفِ loading بعد أول batch من البيانات
+      const overlay = document.getElementById("loading-overlay");
+      if (overlay && overlay.style.display !== "none") {
+        overlay.style.display = "none";
+        showPage("page-student");
+      }
+    },
+    err => {
+      console.error("Realtime regs error:", err);
+      document.getElementById("loading-overlay").style.display = "none";
+      showPage("page-student");
     }
   );
+
+  // ── Logs: يُحدِّث الداشبورد فقط ──
   unsubLogs = onSnapshot(
     query(collection(db, "logs"), orderBy("ts", "desc")),
     snap => {
       logsCache = snap.docs.map(d => ({ docId: d.id, ...d.data() }));
-      if (document.getElementById("page-dashboard").classList.contains("active")) renderDashboard();
+      if (document.getElementById("page-dashboard").classList.contains("active")) {
+        renderDashboard();
+      }
     }
   );
 }
@@ -772,7 +783,6 @@ window.registerStudent = async function() {
   const snap = await getDocs(query(collection(db, "registrations"), where("lessonId","==",selectedLesson)));
   if (!snap.empty) {
     selectedLesson = null;
-    await loadRegs();
     return showAlert(alertEl, "⚠️ هذا الدرس اختاره طالب آخر الآن. اختر درساً مختلفاً.");
   }
 
