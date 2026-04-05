@@ -644,22 +644,21 @@ async function addLog(event, details) {
 // ── Boot ──
 window.addEventListener("load", async () => {
   addLog("فتح الموقع", "زيارة صفحة التسجيل"); // لا نحتاج await حتى لا تتأخر الصفحة
-  startRealtime(); // يبدأ الـ realtime فوراً — أول snapshot يخفي الـ loading
+  startRegsListener(); // يبدأ listener التسجيلات فوراً — أول snapshot يخفي الـ loading
 });
 
-function startRealtime() {
+// listener التسجيلات — يشتغل دايماً من أول تحميل الصفحة
+function startRegsListener() {
   if (unsubRegs) return;
-
-  // ── Registrations: يُحدِّث صفحة الطلاب والداشبورد في نفس اللحظة ──
   unsubRegs = onSnapshot(
     query(collection(db, "registrations"), orderBy("registeredAtTS", "asc")),
     snap => {
       regsCache = snap.docs.map(d => ({ docId: d.id, ...d.data() }));
-      renderLessons(); // دايماً محدَّث في صفحة الطلاب
+      renderLessons();
       if (document.getElementById("page-dashboard").classList.contains("active")) {
         renderDashboard();
       }
-      // أخفِ loading بعد أول batch من البيانات
+      // أخفِ loading بعد أول batch
       const overlay = document.getElementById("loading-overlay");
       if (overlay && overlay.style.display !== "none") {
         overlay.style.display = "none";
@@ -667,13 +666,16 @@ function startRealtime() {
       }
     },
     err => {
-      console.error("Realtime regs error:", err);
+      console.error("Regs listener error:", err);
       document.getElementById("loading-overlay").style.display = "none";
       showPage("page-student");
     }
   );
+}
 
-  // ── Logs: يُحدِّث الداشبورد فقط ──
+// listener اللوقات — يشتغل فقط عند دخول الداشبورد
+function startLogsListener() {
+  if (unsubLogs) return;
   unsubLogs = onSnapshot(
     query(collection(db, "logs"), orderBy("ts", "desc")),
     snap => {
@@ -685,8 +687,13 @@ function startRealtime() {
   );
 }
 
+function startRealtime() {
+  startRegsListener();
+  startLogsListener();
+}
+
 function stopRealtime() {
-  if (unsubRegs) { unsubRegs(); unsubRegs = null; }
+  // عند logout: نوقف logs فقط — regs يظل لصفحة الطلاب
   if (unsubLogs) { unsubLogs(); unsubLogs = null; }
 }
 
@@ -848,6 +855,7 @@ window.adminLogin = async function() {
     await signInWithEmailAndPassword(auth, "admin@s7ty1.com", pass);
     showPage("page-dashboard");
     startRealtime();
+    renderDashboard(); // استدعاء فوري لعرض البيانات الموجودة في regsCache
   } catch {
     alertEl.textContent = "❌ كلمة المرور غير صحيحة";
     alertEl.classList.add("show");
