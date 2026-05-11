@@ -20,35 +20,88 @@
     --text: #f1f5f9;
     --text2: #94a3b8;
     --text3: #475569;
+    --grid-color: rgba(59,130,246,0.03);
+    --glow1: rgba(59,130,246,0.08);
+    --glow2: rgba(6,182,212,0.06);
+    --shadow: rgba(0,0,0,0.3);
   }
+
+  :root.light {
+    --bg: #f1f5f9;
+    --surface: #ffffff;
+    --surface2: #f8fafc;
+    --border: #e2e8f0;
+    --accent: #3b82f6;
+    --accent2: #0284c7;
+    --gold: #d97706;
+    --green: #059669;
+    --red: #dc2626;
+    --text: #0f172a;
+    --text2: #475569;
+    --text3: #94a3b8;
+    --grid-color: rgba(59,130,246,0.04);
+    --glow1: rgba(59,130,246,0.05);
+    --glow2: rgba(6,182,212,0.04);
+    --shadow: rgba(0,0,0,0.1);
+  }
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
+
   body {
     font-family: 'Tajawal', sans-serif;
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
     direction: rtl;
+    transition: background 0.3s, color 0.3s;
   }
+
   body::before {
     content: '';
     position: fixed;
     inset: 0;
     background:
-      radial-gradient(ellipse 80% 50% at 20% 10%, rgba(59,130,246,0.08) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 40% at 80% 90%, rgba(6,182,212,0.06) 0%, transparent 60%);
+      radial-gradient(ellipse 80% 50% at 20% 10%, var(--glow1) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 90%, var(--glow2) 0%, transparent 60%);
     pointer-events: none;
     z-index: 0;
   }
+
   body::after {
     content: '';
     position: fixed;
     inset: 0;
     background-image:
-      linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px);
+      linear-gradient(var(--grid-color) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
     background-size: 50px 50px;
     pointer-events: none;
     z-index: 0;
+  }
+
+  /* ── Theme Toggle Button ── */
+  #theme-toggle {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 9998;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    box-shadow: 0 2px 12px var(--shadow);
+  }
+  #theme-toggle:hover {
+    transform: scale(1.1);
+    border-color: var(--accent);
+    box-shadow: 0 4px 16px var(--shadow);
   }
 
   /* ── Loading ── */
@@ -80,9 +133,13 @@
   }
   .header h1 {
     font-size: clamp(28px, 5vw, 48px); font-weight: 900;
+    color: var(--text);
+    line-height: 1.2; margin-bottom: 10px;
+  }
+  :root:not(.light) .header h1 {
     background: linear-gradient(135deg, #f1f5f9 0%, #94a3b8 100%);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text; line-height: 1.2; margin-bottom: 10px;
+    background-clip: text;
   }
   .header p { color: var(--text2); font-size: 16px; }
 
@@ -93,6 +150,7 @@
     background: var(--surface); border: 1px solid var(--border);
     border-radius: 16px; padding: 32px; margin-bottom: 24px;
     position: relative; overflow: hidden;
+    transition: background 0.3s, border-color 0.3s;
   }
   .card::before {
     content: ''; position: absolute; top: 0; right: 0; left: 0; height: 1px;
@@ -121,8 +179,9 @@
     font-size: 13px; font-weight: 700;
   }
   .date-section-label.full {
-    background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.2); color: #34d399;
+    background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.2); color: #059669;
   }
+  :root:not(.light) .date-section-label.full { color: #34d399; }
 
   /* ── Lesson cards ── */
   .lessons-grid {
@@ -150,17 +209,23 @@
     border: 1px solid rgba(239,68,68,0.3); border-radius: 6px;
     padding: 2px 8px; font-size: 11px; font-weight: 600;
   }
-  .ch-3 .lesson-chapter { color: #a78bfa; }
-  .ch-4 .lesson-chapter { color: #34d399; }
-  .ch-5 .lesson-chapter { color: #fb923c; }
-  .ch-6 .lesson-chapter { color: #f472b6; }
-  .ch-7 .lesson-chapter { color: #fbbf24; }
+  .ch-3 .lesson-chapter { color: #7c3aed; }
+  .ch-4 .lesson-chapter { color: #059669; }
+  .ch-5 .lesson-chapter { color: #ea580c; }
+  .ch-6 .lesson-chapter { color: #db2777; }
+  .ch-7 .lesson-chapter { color: #d97706; }
+  :root:not(.light) .ch-3 .lesson-chapter { color: #a78bfa; }
+  :root:not(.light) .ch-4 .lesson-chapter { color: #34d399; }
+  :root:not(.light) .ch-5 .lesson-chapter { color: #fb923c; }
+  :root:not(.light) .ch-6 .lesson-chapter { color: #f472b6; }
+  :root:not(.light) .ch-7 .lesson-chapter { color: #fbbf24; }
   .completed-badge {
     display: inline-flex; align-items: center; gap: 4px;
-    background: rgba(16,185,129,0.12); color: #34d399;
+    background: rgba(16,185,129,0.12); color: #059669;
     border: 1px solid rgba(16,185,129,0.3); border-radius: 6px;
     padding: 2px 8px; font-size: 11px; font-weight: 700; margin-top: 6px;
   }
+  :root:not(.light) .completed-badge { color: #34d399; }
   .lesson-card.completed { border-color: rgba(16,185,129,0.25); }
 
   /* ── Selected indicator ── */
@@ -251,6 +316,8 @@
     display: flex; align-items: center; justify-content: space-between;
     padding: 24px 32px; border-bottom: 1px solid var(--border);
     position: relative; z-index: 1; flex-wrap: wrap; gap: 12px;
+    background: var(--surface);
+    transition: background 0.3s, border-color 0.3s;
   }
   .dash-title { font-size: 20px; font-weight: 800; }
   .dash-body { padding: 32px; max-width: 1100px; margin: 0 auto; }
@@ -261,6 +328,7 @@
   .stat-card {
     background: var(--surface); border: 1px solid var(--border);
     border-radius: 12px; padding: 20px; position: relative; overflow: hidden;
+    transition: background 0.3s, border-color 0.3s;
   }
   .stat-card::before { content: ''; position: absolute; top: 0; right: 0; left: 0; height: 2px; }
   .stat-card.blue::before { background: var(--accent); }
@@ -302,8 +370,8 @@
   /* ── Alerts ── */
   .alert { padding: 12px 16px; border-radius: 10px; font-size: 14px; font-weight: 500; margin-bottom: 16px; display: none; }
   .alert.show { display: block; }
-  .alert-error { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #fca5a5; }
-  .alert-success { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: #6ee7b7; }
+  .alert-error { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #ef4444; }
+  .alert-success { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: #10b981; }
 
   /* ── Misc ── */
   .empty { text-align: center; padding: 48px; color: var(--text3); }
@@ -324,10 +392,16 @@
     .lessons-grid { grid-template-columns: 1fr; }
     .dash-header { padding: 16px 20px; }
     .dash-body { padding: 16px; }
+    #theme-toggle { top: 12px; left: 12px; width: 38px; height: 38px; font-size: 18px; }
   }
 </style>
 </head>
 <body>
+
+<!-- زر تبديل الوضع -->
+<button id="theme-toggle" onclick="toggleTheme()" title="تبديل المظهر">
+  <span id="theme-icon">☀️</span>
+</button>
 
 <div id="loading-overlay">
   <div class="spinner"></div>
@@ -355,7 +429,6 @@
         <div id="lessons-container">
           <div style="color:var(--text3); padding:20px; text-align:center;">جاري التحميل...</div>
         </div>
-        <!-- مؤشر الدرس المختار -->
         <div class="selected-indicator" id="selected-indicator">
           ✅ <span id="selected-text">لم تختر درساً بعد</span>
         </div>
@@ -473,6 +546,26 @@
   </div>
 </div>
 
+<script>
+// ── Theme Toggle ──
+function toggleTheme() {
+  const isLight = document.documentElement.classList.toggle("light");
+  document.getElementById("theme-icon").textContent = isLight ? "🌙" : "☀️";
+  localStorage.setItem("theme", isLight ? "light" : "dark");
+}
+
+// تطبيق الثيم المحفوظ فوراً قبل أي شيء
+(function() {
+  if (localStorage.getItem("theme") === "light") {
+    document.documentElement.classList.add("light");
+    document.addEventListener("DOMContentLoaded", function() {
+      var icon = document.getElementById("theme-icon");
+      if (icon) icon.textContent = "🌙";
+    });
+  }
+})();
+</script>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -536,7 +629,6 @@ const ALL_LESSONS_RAW = [
   { id:"7-4", chapter:"الفصل السابع", chapterNum:7, name:"أضرار تعاطي المخدرات ومهارات الرفض" },
 ];
 
-// بناء SESSIONS بعد تعريف ALL_LESSONS_RAW
 const SESSIONS = generateSessions();
 
 const DAY_NAMES = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
@@ -546,7 +638,6 @@ function formatDateShort(d) {
   return DAY_NAMES[d.getDay()] + " " + dd + "/" + mm + "/" + d.getFullYear();
 }
 
-// إضافة بيانات التاريخ لكل درس
 const ALL_LESSONS = ALL_LESSONS_RAW.map((l, i) => {
   const sessionIdx  = Math.floor(i / 3);
   const sessionDate = SESSIONS[sessionIdx] ?? SESSIONS[SESSIONS.length - 1];
@@ -644,11 +735,10 @@ async function addLog(event, details) {
 
 // ── Boot ──
 window.addEventListener("load", async () => {
-  addLog("فتح الموقع", "زيارة صفحة التسجيل"); // لا نحتاج await حتى لا تتأخر الصفحة
-  startRegsListener(); // يبدأ listener التسجيلات فوراً — أول snapshot يخفي الـ loading
+  addLog("فتح الموقع", "زيارة صفحة التسجيل");
+  startRegsListener();
 });
 
-// listener التسجيلات — يشتغل دايماً من أول تحميل الصفحة
 function startRegsListener() {
   if (unsubRegs) return;
   unsubRegs = onSnapshot(
@@ -659,7 +749,6 @@ function startRegsListener() {
       if (document.getElementById("page-dashboard").classList.contains("active")) {
         renderDashboard();
       }
-      // أخفِ loading بعد أول batch
       const overlay = document.getElementById("loading-overlay");
       if (overlay && overlay.style.display !== "none") {
         overlay.style.display = "none";
@@ -674,7 +763,6 @@ function startRegsListener() {
   );
 }
 
-// listener اللوقات — يشتغل فقط عند دخول الداشبورد
 function startLogsListener() {
   if (unsubLogs) return;
   unsubLogs = onSnapshot(
@@ -694,7 +782,6 @@ function startRealtime() {
 }
 
 function stopRealtime() {
-  // عند logout: نوقف logs فقط — regs يظل لصفحة الطلاب
   if (unsubLogs) { unsubLogs(); unsubLogs = null; }
 }
 
@@ -712,7 +799,7 @@ window.showAdminLogin = function() {
   addLog("محاولة دخول للوحة التحكم", "فتح صفحة تسجيل دخول المنسق");
 };
 
-// ── Render lessons (grouped by session date) ──
+// ── Render lessons ──
 function renderLessons() {
   const takenIds = regsCache.map(r => r.lessonId);
   const container = document.getElementById("lessons-container");
@@ -763,7 +850,6 @@ window.selectLesson = function(id) {
   const card = document.getElementById("lcard-" + id);
   if (card) { card.classList.add("selected"); card.scrollIntoView({ behavior:"smooth", block:"nearest" }); }
 
-  // إظهار مؤشر الاختيار
   const lesson = ALL_LESSONS.find(l => l.id === id);
   const indicator = document.getElementById("selected-indicator");
   const indText   = document.getElementById("selected-text");
@@ -787,7 +873,6 @@ window.registerStudent = async function() {
   if (regsCache.some(r => normalizeName(r.name) === normName))
     return showAlert(alertEl, "⚠️ هذا الاسم مسجّل مسبقاً. كل طالب يسجل مرة واحدة فقط.");
 
-  // تحقق من أن الدرس لم يُؤخذ لحظياً
   const snap = await getDocs(query(collection(db, "registrations"), where("lessonId","==",selectedLesson)));
   if (!snap.empty) {
     selectedLesson = null;
@@ -856,7 +941,7 @@ window.adminLogin = async function() {
     await signInWithEmailAndPassword(auth, "admin@s7ty1.com", pass);
     showPage("page-dashboard");
     startRealtime();
-    renderDashboard(); // استدعاء فوري لعرض البيانات الموجودة في regsCache
+    renderDashboard();
   } catch {
     alertEl.textContent = "❌ كلمة المرور غير صحيحة";
     alertEl.classList.add("show");
@@ -878,7 +963,6 @@ window.renderDashboard = function renderDashboard() {
   const logs   = logsCache;
   const search = (document.getElementById("search-input")?.value || "").toLowerCase();
 
-  // Stats
   document.getElementById("stats-row").innerHTML = `
     <div class="stat-card blue"><div class="stat-num">${regs.length}</div><div class="stat-label">طالب مسجّل</div></div>
     <div class="stat-card green"><div class="stat-num">${ALL_LESSONS.length - regs.length}</div><div class="stat-label">درس متبقي</div></div>
@@ -886,7 +970,6 @@ window.renderDashboard = function renderDashboard() {
     <div class="stat-card red"><div class="stat-num">${logs.length}</div><div class="stat-label">سجل زيارة</div></div>
   `;
 
-  // Date tabs
   let tabsHtml = `<button class="tab ${activeDateFilter==="all"?"active":""}" onclick="setDateFilter('all')">الكل</button>`;
   SESSIONS.forEach(s => {
     const iso   = s.toISOString().split("T")[0];
@@ -895,7 +978,6 @@ window.renderDashboard = function renderDashboard() {
   });
   document.getElementById("date-tabs").innerHTML = tabsHtml;
 
-  // Filter registrations
   let filtered = [...regs];
   if (activeDateFilter !== "all") filtered = filtered.filter(r => r.dateISO === activeDateFilter);
   if (search) filtered = filtered.filter(r =>
@@ -903,7 +985,6 @@ window.renderDashboard = function renderDashboard() {
     (r.lessonName || "").toLowerCase().includes(search)
   );
 
-  // Sort: upcoming first, then closest to today
   const now = Date.now();
   filtered.sort((a, b) => {
     const da = new Date(a.dateISO).getTime();
@@ -911,7 +992,6 @@ window.renderDashboard = function renderDashboard() {
     return Math.abs(da - now) - Math.abs(db2 - now);
   });
 
-  // Registrations table
   const tbody = document.getElementById("reg-tbody");
   if (!filtered.length) {
     tbody.innerHTML = `<tr><td colspan="7" class="empty"><div class="empty-icon">📭</div>لا توجد تسجيلات</td></tr>`;
@@ -921,9 +1001,7 @@ window.renderDashboard = function renderDashboard() {
         <td style="color:var(--text3)">${i+1}</td>
         <td><strong>${r.name}</strong></td>
         <td style="color:var(--text2);font-size:13px">${r.chapter}</td>
-        <td>
-          ${r.lessonName}
-        </td>
+        <td>${r.lessonName}</td>
         <td style="text-align:center;">
           <span class="badge badge-date">
             <span>${r.dateShort || r.dateISO}</span>
@@ -942,7 +1020,6 @@ window.renderDashboard = function renderDashboard() {
       </tr>`).join("");
   }
 
-  // Unregistered lessons
   const takenIds  = regs.map(r => r.lessonId);
   const unreg     = ALL_LESSONS.filter(l => !takenIds.includes(l.id));
   const unregBody = document.getElementById("unreg-tbody");
@@ -958,7 +1035,6 @@ window.renderDashboard = function renderDashboard() {
       </tr>`).join("");
   }
 
-  // Logs table
   const logsBody = document.getElementById("logs-tbody");
   if (!logs.length) {
     logsBody.innerHTML = `<tr><td colspan="15" class="empty">لا توجد سجلات</td></tr>`;
@@ -1002,7 +1078,6 @@ window.toggleCompleted = async function(docId, name, currentState) {
 };
 
 function showDashAlert(msg) {
-  // رسالة بسيطة في أعلى الداشبورد
   const existing = document.getElementById("dash-alert");
   const el = existing || document.createElement("div");
   el.id        = "dash-alert";
@@ -1025,7 +1100,6 @@ window.exportCSV = function() {
   addLog("تصدير CSV", `تصدير ${regsCache.length} تسجيل`);
 };
 
-// منع النقر اليميني في الداشبورد فقط
 document.addEventListener("contextmenu", e => {
   if (document.getElementById("page-dashboard").classList.contains("active")) e.preventDefault();
 });
